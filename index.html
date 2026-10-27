@@ -1,0 +1,38 @@
+<!DOCTYPE html><html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>HR Nurse SWDCPH</title>
+<style>:root{--bg:#f6f8fa;--fg:#1f2933;--card:#fff;--ac:#0b7285;--bd:#d9e2ec;--bad:#c92a2a;--ok:#2b8a3e}
+@media(prefers-color-scheme:dark){:root{--bg:#12181e;--fg:#e4e9ee;--card:#1c242c;--ac:#3bc9db;--bd:#33414d;--bad:#ff8787;--ok:#69db7c}}
+*{box-sizing:border-box}body{margin:0;font-family:'Sarabun',system-ui,sans-serif;background:var(--bg);color:var(--fg)}
+header{background:var(--ac);color:#fff;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+nav button,button{font:inherit;padding:7px 14px;border-radius:8px;border:1px solid var(--bd);background:var(--card);color:var(--fg);cursor:pointer}
+nav button.on,button.p{background:var(--ac);color:#fff;border-color:var(--ac)}main{max-width:1100px;margin:auto;padding:16px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:14px;margin-bottom:14px}.kpi{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.kpi b{font-size:28px;display:block}.tw{overflow-x:auto}table{border-collapse:collapse;width:100%}th,td{padding:6px 8px;border-bottom:1px solid var(--bd);text-align:left;white-space:nowrap}
+input,select{font:inherit;padding:7px;border:1px solid var(--bd);border-radius:8px;background:var(--card);color:var(--fg);width:100%}
+.g{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px}.bar{height:8px;background:var(--bd);border-radius:4px;min-width:80px}.bar i{display:block;height:100%;border-radius:4px;background:var(--ok)}
+.bad{color:var(--bad);font-weight:600}.err{color:var(--bad)}</style></head><body>
+<header><b>HR Nurse SWDCPH · กลุ่มการพยาบาล รพ.สมเด็จพระยุพราชสว่างแดนดิน</b><nav id="nav"></nav></header><main id="m"></main>
+<script>
+const API_URL='PUT_APPS_SCRIPT_WEB_APP_URL_HERE'; // วาง URL หลัง Deploy Apps Script
+let S=JSON.parse(sessionStorage.getItem('s')||'null'),tab='dash';
+const $=(h)=>{m.innerHTML=h},be=d=>{if(!d)return'';const[y,mo,da]=String(d).slice(0,10).split('-');return`${da}/${mo}/${+y+543}`};
+async function api(action,data={}){const r=await fetch(API_URL,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify({action,token:S&&S.token,...data})});const j=await r.json();
+ if(!j.ok){if(/หมดอายุ/.test(j.error)){sessionStorage.clear();S=null;render()}throw new Error(j.error)}return j}
+function render(){nav.innerHTML=S?[['dash','แดชบอร์ด'],['people','ทะเบียน'],['rec','บันทึกเข้า-ออก']].map(([k,t])=>`<button class="${tab==k?'on':''}" onclick="tab='${k}';render()">${t}</button>`).join('')+'<button onclick="sessionStorage.clear();S=null;render()">ออก</button>':'';
+ if(!S)return login();({dash,people,rec})[tab]()}
+function login(){$(`<div class="card" style="max-width:340px;margin:40px auto"><h3>เข้าสู่ระบบ</h3><p><input id="u" placeholder="ชื่อผู้ใช้"></p><p><input id="p" type="password" placeholder="รหัสผ่าน"></p><button class="p" onclick="doLogin()">เข้าสู่ระบบ</button><p class="err" id="e"></p></div>`)}
+async function doLogin(){try{S=await api('login',{username:u.value,password:p.value});sessionStorage.setItem('s',JSON.stringify(S));render()}catch(x){e.textContent=x.message}}
+async function dash(){$('กำลังโหลด…');try{const d=await api('dashboard'),g=d.rows.reduce((a,r)=>a+Math.max(r.gap,0),0),q=d.rows.reduce((a,r)=>a+r.quota,0);
+ $(`<div class="kpi"><div class="card"><b>${d.active}</b>บุคลากรปฏิบัติงาน</div><div class="card"><b>${q}</b>กรอบรวม</div><div class="card"><b class="${g?'bad':''}">${g}</b>GAP (ขาด)</div><div class="card"><b>${d.hire}/${d.exit}</b>เข้า/ออก เดือนนี้</div></div>
+ <div class="card tw"><table><tr><th>หน่วยงาน</th><th>ตำแหน่ง</th><th>กรอบ</th><th>จริง</th><th>GAP</th><th>สัดส่วน</th></tr>${d.rows.sort((a,b)=>b.gap-a.gap).map(r=>`<tr><td>${r.unit}</td><td>${r.position}</td><td>${r.quota}</td><td>${r.actual}</td><td class="${r.gap>0?'bad':''}">${r.gap}</td><td><div class="bar"><i style="width:${Math.min(100,r.quota?r.actual/r.quota*100:0)}%"></i></div></td></tr>`).join('')}</table></div>`)}catch(x){$(`<p class="err">${x.message}</p>`)}}
+async function people(){$('กำลังโหลด…');const d=(await api('people')).data;window.P=d;
+ $(`<div class="card"><input id="q" placeholder="ค้นหาชื่อ/หน่วยงาน" oninput="pl()"></div><div class="card tw" id="pl"></div>`);pl()}
+function pl(){const k=(q.value||'').trim();document.getElementById('pl').innerHTML=`<table><tr><th>ชื่อ-สกุล</th><th>ตำแหน่ง</th><th>ระดับ</th><th>ประเภท</th><th>หน่วยงาน</th><th>บรรจุ</th><th>สถานะ</th></tr>${P.filter(r=>!k||(r.name+r.unit).includes(k)).map(r=>`<tr><td>${r.prefix||''}${r.name}</td><td>${r.position}</td><td>${r.level}</td><td>${r.type}</td><td>${r.unit}</td><td>${be(r.start_date)}</td><td>${r.status}</td></tr>`).join('')}</table>`}
+async function rec(){$('กำลังโหลด…');const [pp,un]=await Promise.all([api('people'),api('units')]);window.P=pp.data;const U=un.data,A=P.filter(r=>r.status==='active'),o=l=>l.map(x=>`<option>${x}</option>`).join('');
+ $(`<div class="card"><h3>รับเข้า/บรรจุ</h3><div class="g"><input id="pf" placeholder="คำนำหน้า"><input id="pn" placeholder="ชื่อ-สกุล"><input id="pp" placeholder="ตำแหน่ง เช่น พยาบาลวิชาชีพ"><input id="pl2" placeholder="ระดับ"><input id="pt" placeholder="ประเภทเจ้าหน้าที่"><select id="pu">${o(U)}</select><label>วันที่บรรจุ<input id="ps" type="date"></label><label>วันเกิด<input id="pb" type="date"></label></div><p><button class="p" onclick="hire()">บันทึกรับเข้า</button></p></div>
+ <div class="card"><h3>ออก / ย้ายหน่วย</h3><div class="g"><select id="xp">${A.map(r=>`<option value="${r.id}">${r.name} (${r.unit})</option>`).join('')}</select><select id="xk"><option value="exit">ออก</option><option value="transfer">ย้ายหน่วย</option></select><select id="xt">${o(U)}</select><input id="xr" placeholder="เหตุผล (ลาออก/เกษียณ/โอน…)"><input id="xd" type="date"></div><p><button class="p" onclick="mv()">บันทึก</button></p></div><p id="msg"></p>`)}
+const done=t=>{msg.textContent=t;setTimeout(rec,900)};
+async function hire(){try{await api('hire',{person:{prefix:pf.value,name:pn.value,position:pp.value,level:pl2.value,type:pt.value,unit:pu.value,start_date:ps.value,birth_date:pb.value}});done('บันทึกแล้ว')}catch(x){msg.textContent=x.message}}
+async function mv(){try{await api(xk.value,{id:xp.value,date:xd.value,reason:xr.value,to:xt.value});done('บันทึกแล้ว')}catch(x){msg.textContent=x.message}}
+render();
+</script></body></html>
