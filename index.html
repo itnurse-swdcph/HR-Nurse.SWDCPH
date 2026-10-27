@@ -1,17 +1,40 @@
 <!DOCTYPE html><html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>HR Nurse SWDCPH</title>
-<style>:root{--bg:#f6f8fa;--fg:#1f2933;--card:#fff;--ac:#0b7285;--bd:#d9e2ec;--bad:#c92a2a;--ok:#2b8a3e}
-@media(prefers-color-scheme:dark){:root{--bg:#12181e;--fg:#e4e9ee;--card:#1c242c;--ac:#3bc9db;--bd:#33414d;--bad:#ff8787;--ok:#69db7c}}
-*{box-sizing:border-box}body{margin:0;font-family:'Sarabun',system-ui,sans-serif;background:var(--bg);color:var(--fg)}
-header{background:var(--ac);color:#fff;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
-nav button,button{font:inherit;padding:7px 14px;border-radius:8px;border:1px solid var(--bd);background:var(--card);color:var(--fg);cursor:pointer}
-nav button.on,button.p{background:var(--ac);color:#fff;border-color:var(--ac)}main{max-width:1100px;margin:auto;padding:16px}
-.card{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:14px;margin-bottom:14px}.kpi{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
-.kpi b{font-size:28px;display:block}.tw{overflow-x:auto}table{border-collapse:collapse;width:100%}th,td{padding:6px 8px;border-bottom:1px solid var(--bd);text-align:left;white-space:nowrap}
-input,select{font:inherit;padding:7px;border:1px solid var(--bd);border-radius:8px;background:var(--card);color:var(--fg);width:100%}
-.g{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px}.bar{height:8px;background:var(--bd);border-radius:4px;min-width:80px}.bar i{display:block;height:100%;border-radius:4px;background:var(--ok)}
-.bad{color:var(--bad);font-weight:600}.err{color:var(--bad)}</style></head><body>
-<header><b>HR Nurse SWDCPH · กลุ่มการพยาบาล รพ.สมเด็จพระยุพราชสว่างแดนดิน</b><nav id="nav"></nav></header><main id="m"></main>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700;800&display=swap');
+:root{color-scheme:light;--bg:#f4f7fb;--fg:#18263b;--muted:#718096;--card:#fff;--ac:#176b87;--ac2:#20a4a8;--bd:#e5ebf2;--bad:#c24155;--ok:#188a72;--nav:#10243d;--shadow:0 12px 32px rgba(31,58,87,.07)}
+*{box-sizing:border-box}body{margin:0;font-family:'Sarabun',system-ui,sans-serif;background:var(--bg);color:var(--fg);font-size:15px}
+.app-shell{min-height:100vh}.sidebar{position:fixed;inset:0 auto 0 0;width:258px;padding:24px 16px;background:linear-gradient(165deg,#10243d 0%,#153d59 62%,#176b87 100%);color:#fff;display:flex;flex-direction:column;z-index:10;box-shadow:8px 0 28px rgba(16,36,61,.08)}
+.brand{display:flex;align-items:center;gap:12px;padding:4px 8px 28px;border-bottom:1px solid rgba(255,255,255,.13)}
+.brand-mark{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(135deg,#4ce0d1,#58a8ff);color:#10243d;font-weight:800;font-size:19px;box-shadow:0 8px 20px rgba(41,199,195,.2)}
+.brand-title{font-size:16px;font-weight:800;letter-spacing:.2px}.brand-sub{font-size:11px;color:#b9d0e2;margin-top:2px}
+.nav-label{font-size:10px;letter-spacing:1.7px;color:#8da9c1;font-weight:700;padding:24px 12px 10px}
+nav{display:flex;flex-direction:column;gap:7px}
+nav button,button{font:inherit;padding:10px 13px;border-radius:11px;border:1px solid var(--bd);background:#fff;color:var(--fg);cursor:pointer;transition:transform .16s ease,box-shadow .16s ease,background .16s ease}
+nav button{display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:transparent;border:1px solid transparent;color:#c4d5e4;padding:12px 13px;font-weight:500}
+nav button .nav-icon{width:22px;text-align:center;font-size:17px;opacity:.95}
+nav button:hover{background:rgba(255,255,255,.08);color:#fff}nav button.on{background:linear-gradient(100deg,rgba(63,211,205,.22),rgba(91,165,255,.15));border-color:rgba(107,222,224,.22);color:#fff;box-shadow:inset 3px 0 #51d8ce}
+nav button.logout{margin-top:auto;color:#f7cbd0}nav button.logout:hover{background:rgba(255,255,255,.09)}
+.sidebar-foot{margin-top:auto;padding:18px 10px 0;color:#9bb4ca;font-size:11px;line-height:1.7}
+.workspace{margin-left:258px;min-height:100vh}.topbar{min-height:82px;padding:18px 32px;display:flex;align-items:center;justify-content:space-between;gap:16px;background:rgba(255,255,255,.82);border-bottom:1px solid var(--bd);backdrop-filter:blur(16px)}
+.eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:var(--ac2);font-weight:800}.page-heading{font-size:22px;font-weight:800;letter-spacing:-.4px;margin:2px 0 0}.topbar-note{font-size:12px;color:var(--muted)}.user-chip{display:flex;align-items:center;gap:10px;background:#f2f7fa;border:1px solid #e4edf4;border-radius:14px;padding:8px 12px;font-size:12px;color:#35516b}.user-avatar{width:32px;height:32px;border-radius:11px;background:linear-gradient(135deg,#d4f7ef,#dceaff);display:grid;place-items:center;color:#176b87;font-weight:800}
+main{max-width:1500px;margin:auto;padding:28px 32px 42px}
+.card{background:var(--card);border:1px solid rgba(222,231,241,.9);border-radius:18px;padding:22px;margin-bottom:18px;box-shadow:var(--shadow)}
+.card h3{margin:0 0 16px;font-size:17px;font-weight:800;letter-spacing:-.2px}.kpi{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin-bottom:20px}
+.kpi .card{margin:0;min-height:142px;position:relative;overflow:hidden;padding:21px 22px}.kpi .card:after{content:'';position:absolute;width:100px;height:100px;right:-32px;top:-32px;border-radius:50%;background:linear-gradient(135deg,rgba(32,164,168,.12),rgba(88,168,255,.08))}
+.kpi b{font-size:34px;line-height:1.2;display:block;margin-bottom:9px;letter-spacing:-1px;color:#18334d}.kpi .card:nth-child(2) b{color:#176b87}.kpi .card:nth-child(3) b{color:#c24155}.kpi .card:nth-child(4) b{color:#188a72}.kpi .card{font-size:13px;color:var(--muted)}
+.tw{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:13px}th,td{padding:13px 14px;border-bottom:1px solid #edf1f6;text-align:left;white-space:nowrap}th{background:#f7f9fc;color:#63768c;font-size:11px;font-weight:800;letter-spacing:.35px;text-transform:none}tbody tr:hover td{background:#f9fcff}tr:last-child td{border-bottom:0}
+input,select{font:inherit;padding:11px 12px;border:1px solid #dbe4ee;border-radius:10px;background:#fff;color:var(--fg);width:100%;outline:none;transition:border .15s,box-shadow .15s}input:focus,select:focus{border-color:#42a8b7;box-shadow:0 0 0 3px rgba(32,164,168,.12)}input::placeholder{color:#9aa9b8}
+.g{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px}.g label{display:flex;flex-direction:column;gap:6px;font-size:12px;color:var(--muted);font-weight:600}
+button.p{background:linear-gradient(105deg,#176b87,#20a4a8);color:#fff;border-color:transparent;font-weight:700;box-shadow:0 6px 15px rgba(23,107,135,.17)}button.p:hover{transform:translateY(-1px);box-shadow:0 9px 20px rgba(23,107,135,.23)}
+.bar{height:8px;background:#e9eff5;border-radius:99px;min-width:90px;overflow:hidden}.bar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#176b87,#39c6b5)}
+.bad{color:var(--bad);font-weight:700}.err{color:var(--bad);font-weight:600}.login-card{max-width:420px;margin:9vh auto!important;padding:34px!important}.login-card h3{font-size:24px}.login-card .p{width:100%;padding:12px}
+body:not(.signed-in) .sidebar{width:100%;height:78px;position:relative;inset:auto;flex-direction:row;align-items:center;padding:14px 24px}.signed-in .sidebar .brand{border:0;padding:0}.signed-in .sidebar .nav-label{display:block}.signed-in .sidebar-foot{display:block}
+body:not(.signed-in) .workspace{margin-left:0}body:not(.signed-in) .topbar{display:none}body:not(.signed-in) main{padding:20px}
+@media(max-width:1050px){.kpi{grid-template-columns:repeat(2,minmax(0,1fr))}main{padding:24px}.sidebar{width:220px}.workspace{margin-left:220px}}
+@media(max-width:700px){.sidebar{width:100%;height:auto;position:relative;inset:auto;padding:14px 14px 12px}.signed-in .sidebar{width:100%}.brand{padding:0 4px 14px!important}.signed-in .sidebar .brand{border-bottom:1px solid rgba(255,255,255,.13);padding-bottom:14px!important}.nav-label{padding:14px 8px 7px!important}nav{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:5px}nav button{padding:10px 8px;font-size:12px}.sidebar-foot{display:none!important}.workspace{margin-left:0}.topbar{padding:16px 18px;min-height:70px}.topbar-note{display:none}.user-chip{padding:6px}.user-chip span:last-child{display:none}main{padding:18px 14px 28px}.kpi{gap:10px}.kpi .card{padding:16px;min-height:120px}.kpi b{font-size:28px}.card{padding:17px;border-radius:15px}th,td{padding:10px 11px}}
+</style></head><body>
+<div class="app-shell"><aside class="sidebar"><div class="brand"><div class="brand-mark">HR</div><div><div class="brand-title">HR Nurse</div><div class="brand-sub">SWDCPH · NURSING</div></div></div><div class="nav-label">WORKSPACE</div><nav id="nav"></nav><div class="sidebar-foot">กลุ่มการพยาบาล<br>โรงพยาบาลสมเด็จพระยุพราชสว่างแดนดิน</div></aside><section class="workspace"><header class="topbar"><div><div class="eyebrow">NURSING HUMAN RESOURCES</div><div class="page-heading" id="page-title">ภาพรวมบุคลากร</div></div><div class="user-chip"><div class="user-avatar">N</div><span>HR Nurse SWDCPH</span></div></header><main id="m"></main></section></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.4/dist/umd/supabase.min.js"></script>
 <script>
 const SUPABASE_URL='https://cdhcparkigajxiiyjzjm.supabase.co',SUPABASE_KEY='sb_publishable_S7YJQGmgp0RIlvLsHpKB4Q_OFD0kmfL'; // ใช้ anon/publishable key เท่านั้น ห้ามใส่ service_role
@@ -32,12 +55,14 @@ async function api0(a,d){
  if(a==='exit'){ok(await sb.from('personnel').update({status:'exited',exit_date:dt,exit_reason:d.reason}).eq('id',d.id));ok(await sb.from('events').insert({type:'exit',person_id:d.id,from_unit:from,effective_date:dt,reason:d.reason}));return{}}
  if(a==='transfer'){ok(await sb.from('personnel').update({unit:d.to}).eq('id',d.id));ok(await sb.from('events').insert({type:'transfer',person_id:d.id,from_unit:from,to_unit:d.to,effective_date:dt,reason:d.reason}));return{}}
  throw new Error('unknown action')}
-function render(){nav.innerHTML=S?[['dash','แดชบอร์ด'],['people','ทะเบียน'],['rec','บันทึกเข้า-ออก']].map(([k,t])=>`<button class="${tab==k?'on':''}" onclick="tab='${k}';render()">${t}</button>`).join('')+'<button onclick="sb.auth.signOut();sessionStorage.clear();S=null;render()">ออก</button>':'';
+function render(){document.body.classList.toggle('signed-in',!!S);const items=[['dash','แดชบอร์ด','▦','ภาพรวมบุคลากร'],['people','ทะเบียนบุคลากร','♙','ทะเบียนบุคลากร'],['rec','บันทึกเข้า-ออก','⇄','บันทึกเข้า-ออก']];
+ nav.innerHTML=S?items.map(([k,t,i])=>`<button class="${tab==k?'on':''}" onclick="tab='${k}';render()"><span class="nav-icon">${i}</span><span>${t}</span></button>`).join('')+`<button class="logout" onclick="sb.auth.signOut();sessionStorage.clear();S=null;render()"><span class="nav-icon">↪</span><span>ออกจากระบบ</span></button>`:'';
+ const active=items.find(x=>x[0]===tab);const title=document.getElementById('page-title');if(title)title.textContent=active?active[3]:'เข้าสู่ระบบ';
  if(!S)return login();({dash,people,rec})[tab]()}
-function login(){$(`<div class="card" style="max-width:340px;margin:40px auto"><h3>เข้าสู่ระบบ</h3><p><input id="u" placeholder="ชื่อผู้ใช้"></p><p><input id="p" type="password" placeholder="รหัสผ่าน"></p><button class="p" onclick="doLogin()">เข้าสู่ระบบ</button><p class="err" id="e"></p></div>`)}
+function login(){$(`<div class="card login-card"><div class="eyebrow">WELCOME BACK</div><h3>เข้าสู่ระบบ</h3><p style="color:var(--muted);font-size:13px">ระบบบริหารจัดการบุคลากรทางการพยาบาล</p><p><input id="u" placeholder="ชื่อผู้ใช้"></p><p><input id="p" type="password" placeholder="รหัสผ่าน"></p><button class="p" onclick="doLogin()">เข้าสู่ระบบ</button><p class="err" id="e"></p></div>`)}
 async function doLogin(){try{S=await api('login',{username:u.value.trim(),password:p.value});sessionStorage.setItem('s',JSON.stringify(S));render()}catch(x){e.textContent=x.message}}
 async function dash(){$('กำลังโหลด…');try{const d=await api('dashboard'),g=d.rows.reduce((a,r)=>a+Math.max(r.gap,0),0),q=d.rows.reduce((a,r)=>a+r.quota,0);
- $(`<div class="kpi"><div class="card"><b>${d.active}</b>บุคลากรปฏิบัติงาน</div><div class="card"><b>${q}</b>กรอบรวม</div><div class="card"><b class="${g?'bad':''}">${g}</b>GAP (ขาด)</div><div class="card"><b>${d.hire}/${d.exit}</b>เข้า/ออก เดือนนี้</div></div>
+ $(`<div class="eyebrow" style="margin:0 0 12px 3px">WORKFORCE OVERVIEW</div><div class="kpi"><div class="card"><b>${d.active}</b>บุคลากรปฏิบัติงาน</div><div class="card"><b>${q}</b>กรอบรวม</div><div class="card"><b class="${g?'bad':''}">${g}</b>GAP (ขาด)</div><div class="card"><b>${d.hire}/${d.exit}</b>เข้า/ออก เดือนนี้</div></div>
  <div class="card tw"><table><tr><th>หน่วยงาน</th><th>ตำแหน่ง</th><th>กรอบ</th><th>จริง</th><th>GAP</th><th>สัดส่วน</th></tr>${d.rows.sort((a,b)=>b.gap-a.gap).map(r=>`<tr><td>${r.unit}</td><td>${r.position}</td><td>${r.quota}</td><td>${r.actual}</td><td class="${r.gap>0?'bad':''}">${r.gap}</td><td><div class="bar"><i style="width:${Math.min(100,r.quota?r.actual/r.quota*100:0)}%"></i></div></td></tr>`).join('')}</table></div>`)}catch(x){$(`<p class="err">${x.message}</p>`)}}
 async function people(){$('กำลังโหลด…');const d=(await api('people')).data;window.P=d;
  $(`<div class="card"><input id="q" placeholder="ค้นหาชื่อ/หน่วยงาน" oninput="pl()"></div><div class="card tw" id="pl"></div>`);pl()}
