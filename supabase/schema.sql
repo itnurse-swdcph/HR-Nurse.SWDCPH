@@ -8,7 +8,10 @@ create table if not exists framework(unit text not null, position text not null,
 
 create or replace function my_role() returns text language sql stable security definer set search_path=public as $$ select coalesce((select role from profiles where user_id=auth.uid()),'none') $$;
 create or replace function my_unit() returns text language sql stable security definer set search_path=public as $$ select coalesce((select unit from profiles where user_id=auth.uid()),'-') $$;
-create or replace function can_write(u text) returns boolean language sql stable as $$ select my_role() in ('admin','unit_head') and (my_unit()='*' or my_unit()=u) $$;
+create or replace function can_write(u text) returns boolean language sql stable set search_path=public as $$ select my_role() in ('admin','unit_head') and (my_unit()='*' or my_unit()=u) $$;
+
+revoke execute on function my_role(), my_unit(), can_write(text) from anon, public;
+grant execute on function my_role(), my_unit(), can_write(text) to authenticated;
 
 alter table profiles enable row level security; alter table personnel enable row level security; alter table events enable row level security; alter table framework enable row level security;
 create policy p_self on profiles for select to authenticated using (user_id=auth.uid());

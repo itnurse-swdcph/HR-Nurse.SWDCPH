@@ -3,6 +3,8 @@
 
 **สถาปัตยกรรม:** `index.html` (GitHub Pages) → Supabase (Auth + Postgres + RLS)
 
+> สถานะ: สร้างตาราง/RLS/ผู้ใช้ `11450` และใส่ anon key ใน Supabase project เรียบร้อยแล้ว เหลือเปิด GitHub Pages
+
 ## ติดตั้ง
 1. Supabase Dashboard → SQL Editor → รัน `supabase/schema.sql`
 2. Authentication → Providers → Email: ปิด "Confirm email" และตั้ง **Minimum password length = 5** (เพื่อให้ใช้รหัส `11450` ได้ชั่วคราว)

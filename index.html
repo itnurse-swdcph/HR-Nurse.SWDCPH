@@ -14,7 +14,7 @@ input,select{font:inherit;padding:7px;border:1px solid var(--bd);border-radius:8
 <header><b>HR Nurse SWDCPH · กลุ่มการพยาบาล รพ.สมเด็จพระยุพราชสว่างแดนดิน</b><nav id="nav"></nav></header><main id="m"></main>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script>
-const SUPABASE_URL='https://cdhcparkigajxiiyjzjm.supabase.co',SUPABASE_KEY='PUT_SUPABASE_ANON_PUBLIC_KEY_HERE'; // ใช้ anon/publishable key เท่านั้น ห้ามใส่ service_role
+const SUPABASE_URL='https://cdhcparkigajxiiyjzjm.supabase.co',SUPABASE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNkaGNwYXJraWdhanhpaXlqemptIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTMwNTY1MzEsImV4cCI6MjEwODYzMjUzMX0.5_ZJjzIuqtYl4VrLBcUOOzKC1dZVSFdUyse5Pgw9vLw'; // ใช้ anon/publishable key เท่านั้น ห้ามใส่ service_role
 const sb=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 let S=JSON.parse(sessionStorage.getItem('s')||'null'),tab='dash';
 const $=(h)=>{m.innerHTML=h},be=d=>{if(!d)return'';const[y,mo,da]=String(d).slice(0,10).split('-');return`${da}/${mo}/${+y+543}`};
