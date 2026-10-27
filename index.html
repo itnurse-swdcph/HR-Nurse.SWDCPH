@@ -12,9 +12,9 @@ input,select{font:inherit;padding:7px;border:1px solid var(--bd);border-radius:8
 .g{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px}.bar{height:8px;background:var(--bd);border-radius:4px;min-width:80px}.bar i{display:block;height:100%;border-radius:4px;background:var(--ok)}
 .bad{color:var(--bad);font-weight:600}.err{color:var(--bad)}</style></head><body>
 <header><b>HR Nurse SWDCPH · กลุ่มการพยาบาล รพ.สมเด็จพระยุพราชสว่างแดนดิน</b><nav id="nav"></nav></header><main id="m"></main>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.4/dist/umd/supabase.min.js"></script>
 <script>
-const SUPABASE_URL='https://cdhcparkigajxiiyjzjm.supabase.co',SUPABASE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNkaGNwYXJraWdhanhpaXlqemptIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTMwNTY1MzEsImV4cCI6MjEwODYzMjUzMX0.5_ZJjzIuqtYl4VrLBcUOOzKC1dZVSFdUyse5Pgw9vLw'; // ใช้ anon/publishable key เท่านั้น ห้ามใส่ service_role
+const SUPABASE_URL='https://cdhcparkigajxiiyjzjm.supabase.co',SUPABASE_KEY='sb_publishable_S7YJQGmgp0RIlvLsHpKB4Q_OFD0kmfL'; // ใช้ anon/publishable key เท่านั้น ห้ามใส่ service_role
 const sb=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 let S=JSON.parse(sessionStorage.getItem('s')||'null'),tab='dash';
 const $=(h)=>{m.innerHTML=h},be=d=>{if(!d)return'';const[y,mo,da]=String(d).slice(0,10).split('-');return`${da}/${mo}/${+y+543}`};
