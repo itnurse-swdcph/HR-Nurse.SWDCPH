@@ -1,15 +1,17 @@
 # HR Nurse SWDCPH
 ระบบบันทึกเข้า-ออกบุคลากรทางการพยาบาล + แดชบอร์ดผู้บริหาร (กลุ่มการพยาบาล รพ.สมเด็จพระยุพราชสว่างแดนดิน)
 
-**สถาปัตยกรรม:** `index.html` (GitHub Pages) → Google Apps Script (`backend/Code.gs`) → Google Sheet (ฐานข้อมูล)
+**สถาปัตยกรรม:** `index.html` (GitHub Pages) → Supabase (Auth + Postgres + RLS)
 
 ## ติดตั้ง
-1. สร้าง Google Sheet ใหม่ (เป็น **private**) → ส่วนขยาย → Apps Script → วาง `backend/Code.gs`
-2. รันฟังก์ชัน `setup()` หนึ่งครั้ง (สร้างชีต Personnel, Events, Framework, Users และผู้ใช้ `admin` / `changeme` **เปลี่ยนรหัสทันที**)
-3. Deploy → Web app → Execute as: Me, Access: Anyone → คัดลอก URL ไปใส่ `API_URL` ใน `index.html`
-4. GitHub → Settings → Pages → Deploy from branch `main` / root
-5. กรอกกรอบอัตรากำลังในชีต `Framework` (unit, position, quota)
+1. Supabase Dashboard → SQL Editor → รัน `supabase/schema.sql`
+2. Authentication → Providers → Email: ปิด "Confirm email" และตั้ง **Minimum password length = 5** (เพื่อให้ใช้รหัส `11450` ได้ชั่วคราว)
+3. Authentication → Users → Add user: email `11450@swdcph.app`, password `11450`, ติ๊ก Auto Confirm → รันบรรทัด `insert into profiles ...` ท้ายไฟล์ schema.sql
+4. Project Settings → API → คัดลอก **anon / publishable key** ใส่ `SUPABASE_KEY` ใน `index.html` (ห้ามใช้ service_role)
+5. GitHub → Settings → Pages → Deploy from branch `main` / root
+6. กรอกกรอบอัตรากำลังในตาราง `framework`
 
-## หมายเหตุด้านข้อมูล (PDPA)
-- **ห้าม commit ข้อมูลบุคลากรจริง (ไฟล์ .xlsx) ลง repo** ข้อมูลอยู่ใน Google Sheet เท่านั้น
-- เพิ่มผู้ใช้ในชีต `Users`: `pass_hash` = SHA-256 ของรหัสผ่าน, role = admin | unit_head | viewer, unit = ชื่อหน่วย หรือ `*` (ทุกหน่วย)
+เข้าสู่ระบบด้วยชื่อผู้ใช้ `11450` / รหัสผ่าน `11450` (ชั่วคราว — **ต้องเปลี่ยนก่อนใส่ข้อมูลจริง**)
+
+## PDPA
+ห้าม commit ไฟล์ข้อมูลบุคลากรจริงลง repo ข้อมูลอยู่ใน Supabase เท่านั้น และถูกป้องกันด้วย RLS ตามบทบาท/หน่วยงาน

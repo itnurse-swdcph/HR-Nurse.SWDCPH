@@ -12,16 +12,30 @@ input,select{font:inherit;padding:7px;border:1px solid var(--bd);border-radius:8
 .g{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px}.bar{height:8px;background:var(--bd);border-radius:4px;min-width:80px}.bar i{display:block;height:100%;border-radius:4px;background:var(--ok)}
 .bad{color:var(--bad);font-weight:600}.err{color:var(--bad)}</style></head><body>
 <header><b>HR Nurse SWDCPH · กลุ่มการพยาบาล รพ.สมเด็จพระยุพราชสว่างแดนดิน</b><nav id="nav"></nav></header><main id="m"></main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script>
-const API_URL='PUT_APPS_SCRIPT_WEB_APP_URL_HERE'; // วาง URL หลัง Deploy Apps Script
+const SUPABASE_URL='https://cdhcparkigajxiiyjzjm.supabase.co',SUPABASE_KEY='PUT_SUPABASE_ANON_PUBLIC_KEY_HERE'; // ใช้ anon/publishable key เท่านั้น ห้ามใส่ service_role
+const sb=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 let S=JSON.parse(sessionStorage.getItem('s')||'null'),tab='dash';
 const $=(h)=>{m.innerHTML=h},be=d=>{if(!d)return'';const[y,mo,da]=String(d).slice(0,10).split('-');return`${da}/${mo}/${+y+543}`};
-async function api(action,data={}){const r=await fetch(API_URL,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify({action,token:S&&S.token,...data})});const j=await r.json();
- if(!j.ok){if(/หมดอายุ/.test(j.error)){sessionStorage.clear();S=null;render()}throw new Error(j.error)}return j}
-function render(){nav.innerHTML=S?[['dash','แดชบอร์ด'],['people','ทะเบียน'],['rec','บันทึกเข้า-ออก']].map(([k,t])=>`<button class="${tab==k?'on':''}" onclick="tab='${k}';render()">${t}</button>`).join('')+'<button onclick="sessionStorage.clear();S=null;render()">ออก</button>':'';
+const ok=r=>{if(r.error)throw new Error(r.error.message);return r.data},nul=o=>Object.fromEntries(Object.entries(o).map(([k,v])=>[k,v===''?null:v])),mon=()=>new Date().toISOString().slice(0,8)+'01';
+async function api(a,d={}){try{return await api0(a,d)}catch(x){if(/JWT|expired/i.test(x.message)){sessionStorage.clear();S=null;render();throw new Error('หมดอายุ กรุณาเข้าสู่ระบบใหม่')}throw x}}
+async function api0(a,d){
+ if(a==='login'){const r=await sb.auth.signInWithPassword({email:d.username+'@swdcph.app',password:d.password});if(r.error)throw new Error('ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง');
+  return ok(await sb.from('profiles').select('role,unit').eq('user_id',r.data.user.id).maybeSingle())||{role:'viewer',unit:'-'}}
+ if(a==='people')return{data:ok(await sb.from('personnel').select('*').order('name'))};
+ if(a==='units')return{data:[...new Set(ok(await sb.from('framework').select('unit')).map(x=>x.unit))].filter(u=>S.unit==='*'||u===S.unit)};
+ if(a==='dashboard'){const[p,f,e]=await Promise.all([sb.from('personnel').select('unit,position').eq('status','active'),sb.from('framework').select('*'),sb.from('events').select('type').gte('effective_date',mon())]),P=ok(p),E=ok(e);
+  return{rows:ok(f).map(x=>{const n=P.filter(y=>y.unit===x.unit&&y.position===x.position).length;return{unit:x.unit,position:x.position,quota:x.quota,actual:n,gap:x.quota-n}}),active:P.length,hire:E.filter(x=>x.type==='hire').length,exit:E.filter(x=>x.type==='exit').length}}
+ if(a==='hire'){const p=nul(d.person),r=ok(await sb.from('personnel').insert({...p,status:'active'}).select('id').single());ok(await sb.from('events').insert({type:'hire',person_id:r.id,to_unit:p.unit,effective_date:p.start_date}));return{}}
+ const from=ok(await sb.from('personnel').select('unit').eq('id',d.id).single()).unit,dt=d.date||null;
+ if(a==='exit'){ok(await sb.from('personnel').update({status:'exited',exit_date:dt,exit_reason:d.reason}).eq('id',d.id));ok(await sb.from('events').insert({type:'exit',person_id:d.id,from_unit:from,effective_date:dt,reason:d.reason}));return{}}
+ if(a==='transfer'){ok(await sb.from('personnel').update({unit:d.to}).eq('id',d.id));ok(await sb.from('events').insert({type:'transfer',person_id:d.id,from_unit:from,to_unit:d.to,effective_date:dt,reason:d.reason}));return{}}
+ throw new Error('unknown action')}
+function render(){nav.innerHTML=S?[['dash','แดชบอร์ด'],['people','ทะเบียน'],['rec','บันทึกเข้า-ออก']].map(([k,t])=>`<button class="${tab==k?'on':''}" onclick="tab='${k}';render()">${t}</button>`).join('')+'<button onclick="sb.auth.signOut();sessionStorage.clear();S=null;render()">ออก</button>':'';
  if(!S)return login();({dash,people,rec})[tab]()}
 function login(){$(`<div class="card" style="max-width:340px;margin:40px auto"><h3>เข้าสู่ระบบ</h3><p><input id="u" placeholder="ชื่อผู้ใช้"></p><p><input id="p" type="password" placeholder="รหัสผ่าน"></p><button class="p" onclick="doLogin()">เข้าสู่ระบบ</button><p class="err" id="e"></p></div>`)}
-async function doLogin(){try{S=await api('login',{username:u.value,password:p.value});sessionStorage.setItem('s',JSON.stringify(S));render()}catch(x){e.textContent=x.message}}
+async function doLogin(){try{S=await api('login',{username:u.value.trim(),password:p.value});sessionStorage.setItem('s',JSON.stringify(S));render()}catch(x){e.textContent=x.message}}
 async function dash(){$('กำลังโหลด…');try{const d=await api('dashboard'),g=d.rows.reduce((a,r)=>a+Math.max(r.gap,0),0),q=d.rows.reduce((a,r)=>a+r.quota,0);
  $(`<div class="kpi"><div class="card"><b>${d.active}</b>บุคลากรปฏิบัติงาน</div><div class="card"><b>${q}</b>กรอบรวม</div><div class="card"><b class="${g?'bad':''}">${g}</b>GAP (ขาด)</div><div class="card"><b>${d.hire}/${d.exit}</b>เข้า/ออก เดือนนี้</div></div>
  <div class="card tw"><table><tr><th>หน่วยงาน</th><th>ตำแหน่ง</th><th>กรอบ</th><th>จริง</th><th>GAP</th><th>สัดส่วน</th></tr>${d.rows.sort((a,b)=>b.gap-a.gap).map(r=>`<tr><td>${r.unit}</td><td>${r.position}</td><td>${r.quota}</td><td>${r.actual}</td><td class="${r.gap>0?'bad':''}">${r.gap}</td><td><div class="bar"><i style="width:${Math.min(100,r.quota?r.actual/r.quota*100:0)}%"></i></div></td></tr>`).join('')}</table></div>`)}catch(x){$(`<p class="err">${x.message}</p>`)}}
