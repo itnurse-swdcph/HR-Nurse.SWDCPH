@@ -36,6 +36,7 @@ body:not(.signed-in) .workspace{margin-left:0}body:not(.signed-in) .topbar{displ
 </style></head><body>
 <div class="app-shell"><aside class="sidebar"><div class="brand"><div class="brand-mark">HR</div><div><div class="brand-title">HR Nurse</div><div class="brand-sub">SWDCPH · NURSING</div></div></div><div class="nav-label">WORKSPACE</div><nav id="nav"></nav><div class="sidebar-foot">กลุ่มการพยาบาล<br>โรงพยาบาลสมเด็จพระยุพราชสว่างแดนดิน</div></aside><section class="workspace"><header class="topbar"><div><div class="eyebrow">NURSING HUMAN RESOURCES</div><div class="page-heading" id="page-title">ภาพรวมบุคลากร</div></div><div class="user-chip"><div class="user-avatar">N</div><span>HR Nurse SWDCPH</span></div></header><main id="m"></main></section></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.4/dist/umd/supabase.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script>
 const SUPABASE_URL='https://cdhcparkigajxiiyjzjm.supabase.co',SUPABASE_KEY='sb_publishable_S7YJQGmgp0RIlvLsHpKB4Q_OFD0kmfL'; // ใช้ anon/publishable key เท่านั้น ห้ามใส่ service_role
 const sb=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
@@ -43,22 +44,25 @@ let S=JSON.parse(sessionStorage.getItem('s')||'null'),tab='dash';
 const $=(h)=>{m.innerHTML=h},be=d=>{if(!d)return'';const[y,mo,da]=String(d).slice(0,10).split('-');return`${da}/${mo}/${+y+543}`};
 const ok=r=>{if(r.error)throw new Error(r.error.message);return r.data},nul=o=>Object.fromEntries(Object.entries(o).map(([k,v])=>[k,v===''?null:v])),mon=()=>new Date().toISOString().slice(0,8)+'01';
 async function api(a,d={}){try{return await api0(a,d)}catch(x){if(/JWT|expired/i.test(x.message)){sessionStorage.clear();S=null;render();throw new Error('หมดอายุ กรุณาเข้าสู่ระบบใหม่')}throw x}}
+const POS3=['พยาบาลวิชาชีพ','พนักงานช่วยเหลือคนไข้','พนักงานประจำตึก'],ext=(F,P)=>{const U=new Set(F.map(f=>f.unit)),h=new Set(F.map(f=>f.unit+'¦'+f.position)),o=[...F];P.forEach(p=>{const k=p.unit+'¦'+p.position;if(U.has(p.unit)&&POS3.includes(p.position)&&!h.has(k)){h.add(k);o.push({unit:p.unit,position:p.position,quota:0})}});return o};
 async function api0(a,d){
  if(a==='login'){const r=await sb.auth.signInWithPassword({email:d.username+'@swdcph.app',password:d.password});if(r.error)throw new Error('ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง');
   return ok(await sb.from('profiles').select('role,unit').eq('user_id',r.data.user.id).maybeSingle())||{role:'viewer',unit:'-'}}
  if(a==='people')return{data:ok(await sb.from('personnel').select('*').order('name'))};
  if(a==='units')return{data:[...new Set(ok(await sb.from('framework').select('unit')).map(x=>x.unit))].filter(u=>S.unit==='*'||u===S.unit)};
  if(a==='dashboard'){const[p,f,e]=await Promise.all([sb.from('personnel').select('unit,position,planned_exit_date').eq('status','active'),sb.from('framework').select('*'),sb.from('events').select('type').gte('effective_date',mon())]),P=ok(p),E=ok(e);
-  return{rows:ok(f).map(x=>{const n=P.filter(y=>y.unit===x.unit&&y.position===x.position).length;return{unit:x.unit,position:x.position,quota:x.quota,actual:n,gap:x.quota-n}}),active:P.length,planned:P.filter(x=>x.planned_exit_date).length,hire:E.filter(x=>x.type==='hire').length,exit:E.filter(x=>x.type==='exit').length}}
+  return{rows:ext(ok(f),P).map(x=>{const n=P.filter(y=>y.unit===x.unit&&y.position===x.position).length;return{unit:x.unit,position:x.position,quota:x.quota,actual:n,gap:x.quota-n}}),active:P.length,planned:P.filter(x=>x.planned_exit_date).length,hire:E.filter(x=>x.type==='hire').length,exit:E.filter(x=>x.type==='exit').length}}
+ if(a==='framework')return{data:ok(await sb.from('framework').select('*'))};
+ if(a==='events')return{data:ok(await sb.from('events').select('type,person_id,from_unit,to_unit,effective_date,reason').order('effective_date',{ascending:false}))};
  if(a==='hire'){const p=nul(d.person),r=ok(await sb.from('personnel').insert({...p,status:'active'}).select('id').single());ok(await sb.from('events').insert({type:'hire',person_id:r.id,to_unit:p.unit,effective_date:p.start_date}));return{}}
  const from=ok(await sb.from('personnel').select('unit').eq('id',d.id).single()).unit,dt=d.date||null;
  if(a==='exit'){ok(await sb.from('personnel').update({status:'exited',exit_date:dt,exit_reason:d.reason}).eq('id',d.id));ok(await sb.from('events').insert({type:'exit',person_id:d.id,from_unit:from,effective_date:dt,reason:d.reason}));return{}}
  if(a==='transfer'){ok(await sb.from('personnel').update({unit:d.to}).eq('id',d.id));ok(await sb.from('events').insert({type:'transfer',person_id:d.id,from_unit:from,to_unit:d.to,effective_date:dt,reason:d.reason}));return{}}
  throw new Error('unknown action')}
-function render(){document.body.classList.toggle('signed-in',!!S);const items=[['dash','แดชบอร์ด','▦','ภาพรวมบุคลากร'],['people','ทะเบียนบุคลากร','♙','ทะเบียนบุคลากร'],['rec','บันทึกเข้า-ออก','⇄','บันทึกเข้า-ออก']];
+function render(){document.body.classList.toggle('signed-in',!!S);const items=[['dash','แดชบอร์ด','▦','ภาพรวมบุคลากร'],['people','ทะเบียนบุคลากร','♙','ทะเบียนบุคลากร'],['rec','บันทึกเข้า-ออก','⇄','บันทึกเข้า-ออก'],['rep','รายงาน','⇩','ส่งออกรายงาน Excel'],['pw','รหัสผ่าน','⚿','เปลี่ยนรหัสผ่าน']];
  nav.innerHTML=S?items.map(([k,t,i])=>`<button class="${tab==k?'on':''}" onclick="tab='${k}';render()"><span class="nav-icon">${i}</span><span>${t}</span></button>`).join('')+`<button class="logout" onclick="sb.auth.signOut();sessionStorage.clear();S=null;render()"><span class="nav-icon">↪</span><span>ออกจากระบบ</span></button>`:'';
  const active=items.find(x=>x[0]===tab);const title=document.getElementById('page-title');if(title)title.textContent=active?active[3]:'เข้าสู่ระบบ';
- if(!S)return login();({dash,people,rec})[tab]()}
+ if(!S)return login();({dash,people,rec,rep,pw})[tab]()}
 function login(){$(`<div class="card login-card"><div class="eyebrow">WELCOME BACK</div><h3>เข้าสู่ระบบ</h3><p style="color:var(--muted);font-size:13px">ระบบบริหารจัดการบุคลากรทางการพยาบาล</p><p><input id="u" placeholder="ชื่อผู้ใช้"></p><p><input id="p" type="password" placeholder="รหัสผ่าน"></p><button class="p" onclick="doLogin()">เข้าสู่ระบบ</button><p class="err" id="e"></p></div>`)}
 async function doLogin(){try{S=await api('login',{username:u.value.trim(),password:p.value});sessionStorage.setItem('s',JSON.stringify(S));render()}catch(x){e.textContent=x.message}}
 function csv(rows,name){const k=Object.keys(rows[0]||{});const t=[k.join(','),...rows.map(r=>k.map(c=>'"'+String(r[c]??'').replace(/"/g,'""')+'"').join(','))].join('\n');
@@ -77,5 +81,29 @@ async function rec(){$('กำลังโหลด…');const [pp,un]=await Pro
 const done=t=>{msg.textContent=t;setTimeout(rec,900)};
 async function hire(){try{await api('hire',{person:{prefix:pf.value,name:pn.value,position:pp.value,level:pl2.value,type:pt.value,unit:pu.value,start_date:ps.value,birth_date:pb.value}});done('บันทึกแล้ว')}catch(x){msg.textContent=x.message}}
 async function mv(){try{await api(xk.value,{id:xp.value,date:xd.value,reason:xr.value,to:xt.value});done('บันทึกแล้ว')}catch(x){msg.textContent=x.message}}
+const NURSE=['พยาบาลวิชาชีพ','นักวิชาการสาธารณสุข(พยาบาล)'],TH_TYPE={hire:'รับเข้า',exit:'ออก',transfer:'ย้ายหน่วย'};
+const gen=b=>{if(!b)return'';const y=+String(b).slice(0,4);return y<=1964?'Baby Boomer':y<=1980?'Gen X':y<=1996?'Gen Y':'Gen Z'},age=b=>b?new Date().getFullYear()-+String(b).slice(0,4):'',cnt=(a,f)=>a.filter(f).length,sum=(R,o)=>R[0].slice(o).map((_,i)=>R.reduce((s,r)=>s+r[i+o],0)),th=(a,b)=>(a||'').localeCompare(b||'','th');
+const B={
+ reg:{n:'ทะเบียนบุคลากร',f:D=>[['หน่วยงาน','หน่วยย่อย','คำนำหน้า','ชื่อ-สกุล','ตำแหน่ง','ระดับ','ประเภท','วันบรรจุ','วันเข้าสู่ตำแหน่ง','วันเกิด','อายุ','Gen','Competency','สถานะ','ลาออกล่วงหน้า','หมายเหตุ'],...D.P.slice().sort((a,b)=>th(a.unit,b.unit)).map(r=>[r.unit,r.sub_unit||'',r.prefix||'',r.name,r.position,r.level||'',r.type,be(r.start_date),be(r.position_start_date),be(r.birth_date),age(r.birth_date),gen(r.birth_date),r.competency||'',r.status,be(r.planned_exit_date),r.note||''])]},
+ bday:{n:'เรียงวัน-เดือนเกิด',f:D=>[['วัน/เดือนเกิด','ชื่อ-สกุล','ตำแหน่ง','หน่วยงาน','อายุ'],...D.P.filter(p=>p.birth_date&&p.status==='active').sort((a,b)=>String(a.birth_date).slice(5).localeCompare(String(b.birth_date).slice(5))).map(r=>{const[y,m,d]=String(r.birth_date).split('-');return[d+'/'+m,(r.prefix||'')+r.name,r.position,r.unit,age(r.birth_date)]})]},
+ gap:{n:'กรอบ-จริง-GAP',f:D=>{const A=D.P.filter(p=>p.status==='active'),U=[...new Set(D.F.map(f=>f.unit))],PS=['พยาบาลวิชาชีพ','พนักงานช่วยเหลือคนไข้','พนักงานประจำตึก'];
+  const R=U.map(u=>[u,...PS.flatMap(ps=>{const q=(D.F.find(f=>f.unit===u&&f.position===ps)||{}).quota||0,a=cnt(A,p=>p.unit===u&&p.position===ps);return[q,a,q-a]})]);
+  return[['หน่วยงาน','RN กรอบ','RN จริง','RN GAP','พนักงานช่วยเหลือคนไข้ กรอบ','จริง','GAP','พนักงานประจำตึก กรอบ','จริง','GAP'],...R,['รวม',...sum(R,1)]]}},
+ lvl:{n:'พยาบาลแยกระดับ',f:D=>{const A=D.P.filter(p=>p.status==='active'&&NURSE.includes(p.position)),U=[...new Set(A.map(p=>p.unit))].sort(th),
+  col=p=>p.position!==NURSE[0]?5:p.type==='ข้าราชการ'?(p.level==='ชำนาญการพิเศษ'?0:p.level==='ชำนาญการ'?1:2):p.type==='พนักงานกระทรวงสาธารณสุข'?3:4;
+  const R=U.map(u=>{const c=[0,0,0,0,0,0];A.filter(p=>p.unit===u).forEach(p=>c[col(p)]++);return[u,...c,c.reduce((a,b)=>a+b,0)]});
+  return[['หน่วยงาน','ชำนาญการพิเศษ','ชำนาญการ','ปฏิบัติการ','พนักงานกระทรวงสาธารณสุข','ลูกจ้างชั่วคราว','นวก.สาธารณสุข(พยาบาล)','รวม'],...R,['รวม',...sum(R,1)]]}},
+ sup:{n:'สายสนับสนุน',f:D=>{const A=D.P.filter(p=>p.status==='active'&&!NURSE.includes(p.position)),K=[...new Set(A.map(p=>p.unit+'¦'+p.position))].sort(th),TY=['ข้าราชการ','ลูกจ้างประจำ','พนักงานกระทรวงสาธารณสุข','ลูกจ้างชั่วคราวรายเดือน','ลูกจ้างชั่วคราวรายวัน'];
+  const R=K.map(x=>{const[u,ps]=x.split('¦'),c=TY.map(t=>cnt(A,p=>p.unit===u&&p.position===ps&&p.type===t));return[u,ps,...c,c.reduce((a,b)=>a+b,0)]});
+  return[['หน่วยงาน','ตำแหน่ง',...TY,'รวม'],...R,['รวม','',...sum(R,2)]]}},
+ mov:{n:'การเคลื่อนไหว',f:D=>{const m=Object.fromEntries(D.P.map(p=>[p.id,(p.prefix||'')+p.name]));return[['วันที่มีผล','ประเภท','ชื่อ-สกุล','จากหน่วย','ไปหน่วย','เหตุผล'],...D.E.map(e=>[be(e.effective_date),TH_TYPE[e.type]||e.type,m[e.person_id]||'',e.from_unit||'',e.to_unit||'',e.reason||''])]}}};
+function xl(ks,name){const wb=XLSX.utils.book_new();ks.forEach(k=>{const a=B[k].f(RD),ws=XLSX.utils.aoa_to_sheet(a);ws['!cols']=a[0].map((_,i)=>({wch:i?16:34}));XLSX.utils.book_append_sheet(wb,ws,B[k].n)});XLSX.writeFile(wb,name+'.xlsx')}
+async function rep(){$('กำลังโหลด…');try{const[pp,fw,ev]=await Promise.all([api('people'),api('framework'),api('events')]);window.RD={P:pp.data,F:fw.data,E:ev.data};
+ const L=[['reg','ทะเบียนบุคลากร (รูปแบบไฟล์ 1)'],['bday','ทะเบียนเรียงวัน-เดือนเกิด'],['gap','กรอบ/ปฏิบัติงานจริง/GAP (รูปแบบไฟล์ 3)'],['lvl','พยาบาลแยกระดับต่อหน่วยงาน (รูปแบบไฟล์ 4)'],['sup','สายสนับสนุน แยกประเภทการจ้าง (รูปแบบไฟล์ 5)'],['mov','การเคลื่อนไหว เข้า-ออก-ย้าย']];
+ $(`<div class="card"><p>ข้อมูล ณ วันที่ปัจจุบัน (รายงานกรอบ/ระดับ/สายสนับสนุนนับเฉพาะผู้ที่สถานะ Active)</p><button class="p" onclick="xl(['reg','bday','gap','lvl','sup','mov'],'HR-Nurse-SWDCPH-all')">ดาวน์โหลดทุกรายงาน (Excel)</button></div><div class="card">${L.map(([k,t])=>`<p><button onclick="xl(['${k}'],'${k}')">ดาวน์โหลด</button> ${t}</p>`).join('')}</div>`)}catch(x){$(`<p class="err">${x.message}</p>`)}}
+function pw(){$(`<div class="card" style="max-width:380px"><h3>เปลี่ยนรหัสผ่าน</h3><p><input id="c0" type="password" placeholder="รหัสผ่านปัจจุบัน"></p><p><input id="n1" type="password" placeholder="รหัสผ่านใหม่ (อย่างน้อย 8 ตัวอักษร)"></p><p><input id="n2" type="password" placeholder="ยืนยันรหัสผ่านใหม่"></p><button class="p" onclick="setPw()">บันทึก</button><p id="pm"></p></div>`)}
+async function setPw(){try{if(n1.value.length<8)throw new Error('รหัสผ่านใหม่ต้องยาวอย่างน้อย 8 ตัวอักษร');if(n1.value!==n2.value)throw new Error('รหัสผ่านใหม่ไม่ตรงกัน');
+ const em=(await sb.auth.getUser()).data.user.email,r=await sb.auth.signInWithPassword({email:em,password:c0.value});if(r.error)throw new Error('รหัสผ่านปัจจุบันไม่ถูกต้อง');
+ const u=await sb.auth.updateUser({password:n1.value});if(u.error)throw new Error(u.error.message);pm.style.color='var(--ok)';pm.textContent='เปลี่ยนรหัสผ่านเรียบร้อยแล้ว'}catch(x){pm.style.color='var(--bad)';pm.textContent=x.message}}
 render();
 </script></body></html>
