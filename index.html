@@ -1,5 +1,6 @@
 <!DOCTYPE html><html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>HR Nurse SWDCPH</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 64 64%27%3E%3Crect width=%2764%27 height=%2764%27 rx=%2716%27 fill=%27%23176b87%27/%3E%3Ctext x=%2732%27 y=%2741%27 font-family=%27Arial,sans-serif%27 font-size=%2725%27 font-weight=%27700%27 text-anchor=%27middle%27 fill=%27white%27%3EHR%3C/text%3E%3C/svg%3E">
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700;800&display=swap');
 :root{color-scheme:light;--bg:#f4f7fb;--fg:#18263b;--muted:#718096;--card:#fff;--ac:#176b87;--ac2:#20a4a8;--bd:#e5ebf2;--bad:#c24155;--ok:#188a72;--nav:#10243d;--shadow:0 12px 32px rgba(31,58,87,.07)}
@@ -47,6 +48,7 @@ html,body{max-width:100%;overflow-x:hidden}.workspace{min-width:0}
 const SUPABASE_URL='https://cdhcparkigajxiiyjzjm.supabase.co',SUPABASE_KEY='sb_publishable_S7YJQGmgp0RIlvLsHpKB4Q_OFD0kmfL'; // ใช้ anon/publishable key เท่านั้น ห้ามใส่ service_role
 const sb=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 let S=JSON.parse(sessionStorage.getItem('s')||'null'),tab='people';
+function esc(value){return String(value??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]))}
 const $=(h)=>{m.innerHTML=h},be=d=>{if(!d)return'';const[y,mo,da]=String(d).slice(0,10).split('-');return`${da}/${mo}/${+y+543}`};
 const ok=r=>{if(r.error)throw new Error(r.error.message);return r.data},nul=o=>Object.fromEntries(Object.entries(o).map(([k,v])=>[k,v===''?null:v])),mon=()=>new Date().toISOString().slice(0,8)+'01';
 async function api(a,d={}){try{return await api0(a,d)}catch(x){if(/JWT|expired/i.test(x.message)){sessionStorage.clear();S=null;render();throw new Error('หมดอายุ กรุณาเข้าสู่ระบบใหม่')}throw x}}
