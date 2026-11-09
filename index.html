@@ -99,9 +99,10 @@ const NURSING_GROUPS=[
 ];
 const groupForUnit=u=>NURSING_GROUPS.find(g=>g.group===u||g.units.includes(u))?.group||'';
 function nursingLocationFields(prefix,current=''){
- const group=groupForUnit(current),legacy=current&&!group;
+ const group=groupForUnit(current),legacy=current&&!group,item=NURSING_GROUPS.find(g=>g.group===group);
  const groups=NURSING_GROUPS.map(g=>`<option value="${esc(g.group)}" ${g.group===group?'selected':''}>${esc(g.group)}</option>`).join('');
- return `<label>กลุ่มงาน<select id="${prefix}_group" onchange="syncNursingUnit('${prefix}_group','${prefix}_unit')"><option value="">— เลือกกลุ่มงาน —</option>${groups}${legacy?'<option value="__legacy__" selected>หน่วยงานเดิม (คงข้อมูลเดิม)</option>':''}</select></label><label>หน่วยงาน<select id="${prefix}_unit"><option value="">— เลือกหน่วยงาน —</option>${legacy?`<option value="${esc(current)}" selected>${esc(current)}</option>`:''}</select></label>`;
+ const childOptions=legacy?`<option value="${esc(current)}" selected>${esc(current)}</option>`:item?.units.length?'<option value="">— เลือกหน่วยงาน —</option>'+item.units.map(u=>`<option value="${esc(u)}" ${u===current?'selected':''}>${esc(u)}</option>`).join(''):group?`<option value="${esc(group)}" selected>${esc(group)}</option>`:'<option value="">— เลือกหน่วยงาน —</option>';
+ return `<label>กลุ่มงาน<select id="${prefix}_group" onchange="syncNursingUnit('${prefix}_group','${prefix}_unit','${legacy?esc(current):''}')"><option value="">— เลือกกลุ่มงาน —</option>${groups}${legacy?'<option value="__legacy__" selected>หน่วยงานเดิม (คงข้อมูลเดิม)</option>':''}</select></label><label>หน่วยงาน<select id="${prefix}_unit">${childOptions}</select></label>`;
 }
 function syncNursingUnit(gid,uid,current=''){
  const g=document.getElementById(gid)?.value,s=document.getElementById(uid);if(!s)return;
