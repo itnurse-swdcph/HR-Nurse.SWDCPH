@@ -79,6 +79,7 @@ function csv(rows,name){const k=Object.keys(rows[0]||{});const t=[k.join(','),..
  const x=document.createElement('a');x.href=URL.createObjectURL(new Blob(['\ufeff'+t],{type:'text/csv;charset=utf-8'}));x.download=name+'.csv';x.click()}
 const sortP=a=>a.slice().sort((x,y)=>th(x.unit,y.unit)||th(x.name,y.name)),rk=r=>[r.planned_exit_date?'แจ้งประสงค์ลาออก '+be(r.planned_exit_date):'',r.note].filter(Boolean).join(' · '),plab=r=>(r.prefix||'')+r.name+' ('+r.unit+')';
 const NURSING_GROUPS=[
+{group:'กลุ่มการพยาบาล',units:[]},
 {group:'กลุ่มงานการพยาบาลผู้ป่วยนอก',units:['งานการพยาบาลผู้ป่วยนอก']},
 {group:'กลุ่มงานการพยาบาลจิตเวช',units:['งานการพยาบาลผู้ป่วยในจิตเวช']},
 {group:'กลุ่มงานวิจัยและพัฒนาการพยาบาล',units:[]},
