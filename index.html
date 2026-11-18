@@ -40,8 +40,114 @@ body:not(.signed-in) .workspace{margin-left:0}body:not(.signed-in) .topbar{displ
 .modal-bg{position:fixed;inset:0;background:rgba(15,23,32,.55);display:flex;align-items:center;justify-content:center;z-index:50;padding:16px}.modal{background:var(--card,#fff);color:var(--fg,#1f2933);border-radius:14px;padding:20px;max-width:640px;width:100%;max-height:90vh;overflow:auto;box-shadow:0 20px 50px rgba(0,0,0,.3)}.modal .framework-table{width:100%;overflow-x:hidden}.modal .framework-table table{width:100%;min-width:0;table-layout:fixed}.modal .framework-table th,.modal .framework-table td{padding:10px 8px;white-space:normal;overflow-wrap:anywhere;vertical-align:middle}.modal .framework-table th:first-child,.modal .framework-table td:first-child{width:42%;min-width:0}.modal .framework-table th:not(:first-child),.modal .framework-table td:not(:first-child){width:19.33%;text-align:center}.modal .framework-table input{width:100%;max-width:92px;min-width:0;padding:8px 6px;text-align:center}.modal{width:min(720px,100%);max-width:calc(100vw - 32px);max-height:calc(100dvh - 32px);overflow:auto}.modal h3{overflow-wrap:anywhere}
 html,body{max-width:100%;overflow-x:hidden}.workspace{min-width:0}
 @media(max-width:700px){.note-cell{min-width:120px;max-width:220px}.tabs{flex-wrap:nowrap;overflow-x:auto;padding-bottom:4px}.tabs button{flex:0 0 auto;white-space:nowrap}.toolbar>*{flex:1 1 140px}.toolbar input{flex-basis:100%}input,select{font-size:16px}.modal{padding:16px;border-radius:12px}.tw td:first-child,.tw th:first-child{position:sticky;left:0;background:#fff;box-shadow:1px 0 0 #edf1f6}.tw th:first-child{background:#f7f9fc}.brow{grid-template-columns:96px 1fr 34px}table{font-size:12px}.card h3{font-size:15px}.grid2{grid-template-columns:1fr}}
+
+/* Modern Material UI refresh */
+:root{--bg:#f5f7fa;--fg:#172b3a;--muted:#647789;--card:#fff;--ac:#176b87;--ac2:#239e9b;--bd:#e4eaf0;--nav:#142b40;--shadow:0 2px 10px rgba(20,43,64,.055);--sidebar-w:264px;--sidebar-mini:78px}
+body{background:var(--bg);font-size:14px;color:var(--fg)}
+.app-shell{min-height:100vh}
+.sidebar{width:var(--sidebar-w);padding:20px 14px;background:#fff;color:var(--fg);border-right:1px solid var(--bd);box-shadow:2px 0 12px rgba(20,43,64,.035);transition:width .22s ease,padding .22s ease}
+.brand{padding:4px 7px 20px;border-bottom:1px solid var(--bd);gap:11px;min-height:58px}
+.brand-mark{width:40px;height:40px;flex:0 0 40px;border-radius:12px;background:#e5f3f5;color:#176b87;box-shadow:none;font-size:17px}
+.brand-title{color:#17354b;font-size:15px}.brand-sub{color:#8293a2}
+.nav-label{color:#8b9aa8;font-size:10px;letter-spacing:1.2px;padding:22px 12px 9px}
+nav{gap:4px}
+nav button{color:#526678;border-radius:10px;padding:11px 12px;gap:12px;font-size:13px}
+nav button .nav-icon{width:22px;height:22px;display:grid;place-items:center;flex:0 0 22px}
+.nav-icon svg,.ui-icon{width:19px;height:19px;display:block;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+nav button:hover{background:#f1f6f8;color:#176b87}
+nav button.on{background:#eaf4f6;border-color:transparent;color:#12627d;box-shadow:inset 3px 0 #2099a1;font-weight:700}
+nav button.logout{color:#b54755}
+.sidebar-foot{color:#8798a7;border-top:1px solid var(--bd);margin-top:auto}
+.workspace{margin-left:var(--sidebar-w);transition:margin-left .22s ease;min-width:0}
+.topbar{min-height:76px;padding:15px 28px;background:rgba(255,255,255,.94);border-bottom:1px solid var(--bd);backdrop-filter:blur(12px)}
+.eyebrow{color:#218c91;font-size:10px;letter-spacing:1.25px}
+.page-heading{font-size:20px;font-weight:700;color:#17354b}
+.user-chip{background:#f5f8fa;border-color:#e8edf1;border-radius:12px;color:#4e6577}
+.user-avatar{background:#e4f2f4;color:#176b87;border-radius:10px}
+main{padding:24px 28px 40px}
+.card{border:1px solid var(--bd);border-radius:14px;padding:20px;box-shadow:var(--shadow);margin-bottom:16px}
+.card h3{font-size:16px;font-weight:700;color:#203c50}
+.kpi{gap:12px}.kpi .card{min-height:122px;padding:18px 19px;border-radius:14px}.kpi .card:after{display:none}
+.kpi b{font-size:30px;color:#173c53}
+button,input,select{font:inherit}
+button{border-radius:9px;border-color:#dce5eb;transition:background .15s,border-color .15s,box-shadow .15s}
+button:hover{box-shadow:0 2px 7px rgba(20,43,64,.08)}
+button.p{background:#176b87;border-color:#176b87;box-shadow:none}
+button.p:hover{background:#125a72;box-shadow:0 3px 9px rgba(23,107,135,.18)}
+button.danger{border-radius:9px}
+input,select{border-radius:9px;border-color:#d8e2e9;padding:10px 11px}
+input:focus,select:focus{border-color:#3199a6;box-shadow:0 0 0 3px rgba(32,164,168,.1)}
+.tabs{gap:6px}.tabs button{border-radius:9px;padding:8px 12px}.tabs button.on{background:#176b87;border-color:#176b87}
+.bar{background:#edf2f5}.bar i{background:#2b9ca1}
+.modal{border:1px solid var(--bd);border-radius:16px;box-shadow:0 18px 48px rgba(20,43,64,.2)}
+/* Tables fit desktop viewport: wrap long content instead of horizontal scrolling */
+.tw{overflow-x:visible;max-width:100%;min-width:0}
+.tw table,.modal .framework-table table{width:100%;min-width:0;table-layout:fixed}
+.tw table th:first-child,.tw table td:first-child{min-width:0}
+th,td{padding:10px 9px;white-space:normal;overflow-wrap:anywhere;word-break:normal;line-height:1.45}
+th{font-size:11px;letter-spacing:0;color:#607486}
+table{font-size:12px}
+.note-cell{min-width:0;max-width:none}
+.gap-num{text-align:center!important;font-variant-numeric:tabular-nums}
+.tw td:first-child,.tw th:first-child{position:static;box-shadow:none}
+.modal .framework-table{overflow-x:hidden}
+.modal .framework-table th,.modal .framework-table td{padding:9px 6px}
+.modal .framework-table th:first-child,.modal .framework-table td:first-child{width:40%}
+.modal .framework-table th:not(:first-child),.modal .framework-table td:not(:first-child){width:20%}
+.sidebar-toggle{width:36px;height:36px;flex:0 0 36px;padding:0;display:grid;place-items:center;border:1px solid #e3eaef;background:#fff;color:#526b7c;border-radius:10px}
+.sidebar-toggle:hover{background:#eef6f7;color:#176b87}
+.sidebar.collapsed{width:var(--sidebar-mini);padding:20px 10px}
+.sidebar.collapsed .brand{justify-content:center;padding:4px 0 20px}
+.sidebar.collapsed .brand-copy,.sidebar.collapsed .nav-label,.sidebar.collapsed nav button .nav-text,.sidebar.collapsed .sidebar-foot{display:none}
+.sidebar.collapsed .brand-mark{display:none}
+.sidebar.collapsed .sidebar-toggle{margin:auto}
+.sidebar.collapsed nav button{justify-content:center;padding:11px 7px}
+.sidebar.collapsed nav button .nav-icon{width:24px;height:24px;flex-basis:24px}
+body.sidebar-mini .workspace{margin-left:var(--sidebar-mini)}
+@media(max-width:900px) and (min-width:701px){
+ .sidebar{width:var(--sidebar-mini);padding:18px 10px}
+ .sidebar .brand{justify-content:center;padding:4px 0 20px}
+ .sidebar .brand-copy,.sidebar .nav-label,.sidebar nav button .nav-text,.sidebar .sidebar-foot{display:none}
+ .sidebar .brand-mark{display:none}.sidebar .sidebar-toggle{margin:auto}
+ .sidebar nav button{justify-content:center;padding:11px 7px}
+ .workspace{margin-left:var(--sidebar-mini)}
+ main{padding:20px 18px}
+}
+@media(max-width:700px){
+ .sidebar,.signed-in .sidebar{width:100%;height:auto;position:relative;inset:auto;padding:12px 14px;background:#fff;border-right:0;border-bottom:1px solid var(--bd)}
+ .sidebar .brand,.signed-in .sidebar .brand{border:0;padding:0;min-height:42px}
+ .brand-mark{display:grid!important}
+ .brand-copy{display:block!important}
+ .sidebar-toggle{margin-left:auto}
+ .sidebar .nav-label,.sidebar-foot{display:none!important}
+ .sidebar nav{display:none;grid-template-columns:repeat(2,minmax(0,1fr));gap:5px;margin-top:12px}
+ .sidebar.mobile-open nav{display:grid}
+ .sidebar nav button{justify-content:flex-start;color:#526678;background:#f7f9fb;padding:9px 10px}
+ .sidebar nav button .nav-text{display:inline}
+ .sidebar nav button.on{background:#eaf4f6;color:#12627d}
+ .workspace,body.sidebar-mini .workspace{margin-left:0}
+ .topbar{padding:13px 16px;min-height:64px}
+ main{padding:15px 12px 26px}
+ .card{padding:15px;border-radius:12px}
+ .kpi{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+ .kpi .card{padding:14px;min-height:105px}
+ .kpi b{font-size:25px}
+ .tw{overflow-x:auto}
+ .tw table{min-width:680px;table-layout:auto}
+ .tw table th:first-child,.tw table td:first-child{min-width:120px}
+ .tw td:first-child,.tw th:first-child{position:sticky;left:0;background:#fff;box-shadow:1px 0 0 #edf1f6}
+ .tw th:first-child{background:#f7f9fc}
+ .modal .framework-table table{min-width:0}
+ .modal{padding:15px}
+}
+@media(min-width:701px) and (max-width:1250px){
+ main{padding-left:18px;padding-right:18px}
+ .tw table{font-size:11px}
+ th,td{padding:8px 6px}
+}
+
 </style></head><body>
-<div class="app-shell"><aside class="sidebar"><div class="brand"><div class="brand-mark">HR</div><div><div class="brand-title">HR Nurse</div><div class="brand-sub">SWDCPH · NURSING</div></div></div><div class="nav-label">WORKSPACE</div><nav id="nav"></nav><div class="sidebar-foot">กลุ่มการพยาบาล<br>โรงพยาบาลสมเด็จพระยุพราชสว่างแดนดิน</div></aside><section class="workspace"><header class="topbar"><div><div class="eyebrow">NURSING HUMAN RESOURCES</div><div class="page-heading" id="page-title">ภาพรวมบุคลากร</div></div><div class="user-chip"><div class="user-avatar">N</div><span>HR Nurse SWDCPH</span></div></header><main id="m"></main></section></div>
+<div class="app-shell"><aside class="sidebar"><div class="brand"><div class="brand-mark">HR</div><div class="brand-copy"><div class="brand-title">HR Nurse</div><div class="brand-sub">SWDCPH · NURSING</div></div><button class="sidebar-toggle" id="sidebarToggle" aria-label="ย่อหรือขยายเมนู" title="ย่อหรือขยายเมนู" onclick="toggleSidebar()"><svg class="ui-icon" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button></div><div class="nav-label">WORKSPACE</div><nav id="nav"></nav><div class="sidebar-foot">กลุ่มการพยาบาล<br>โรงพยาบาลสมเด็จพระยุพราชสว่างแดนดิน</div></aside><section class="workspace"><header class="topbar"><div><div class="eyebrow">NURSING HUMAN RESOURCES</div><div class="page-heading" id="page-title">ภาพรวมบุคลากร</div></div><div class="user-chip"><div class="user-avatar">N</div><span>HR Nurse SWDCPH</span></div></header><main id="m"></main></section></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.4/dist/umd/supabase.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script>
@@ -69,8 +175,10 @@ async function api0(a,d){
  if(a==='exit'){ok(await sb.from('personnel').update({status:'exited',exit_date:dt,exit_reason:d.reason}).eq('id',d.id));ok(await sb.from('events').insert({type:'exit',person_id:d.id,from_unit:from,effective_date:dt,reason:d.reason}));return{}}
  if(a==='transfer'){ok(await sb.from('personnel').update({unit:d.to}).eq('id',d.id));ok(await sb.from('events').insert({type:'transfer',person_id:d.id,from_unit:from,to_unit:d.to,effective_date:dt,reason:d.reason}));return{}}
  throw new Error('unknown action')}
-function render(){document.body.classList.toggle('signed-in',!!S);const items=[['people','ทะเบียนบุคลากร','♙','ทะเบียนบุคลากร'],['rep','รายงาน','⇩','ส่งออกรายงาน Excel'],['pw','รหัสผ่าน','⚿','เปลี่ยนรหัสผ่าน']];
- nav.innerHTML=S?items.map(([k,t,i])=>`<button class="${tab==k?'on':''}" onclick="tab='${k}';render()"><span class="nav-icon">${i}</span><span>${t}</span></button>`).join('')+`<button class="logout" onclick="sb.auth.signOut();sessionStorage.clear();S=null;render()"><span class="nav-icon">↪</span><span>ออกจากระบบ</span></button>`:'';
+function uiIcon(n){const p={people:'<circle cx="9" cy="8" r="3"/><path d="M3 20v-1a6 6 0 0 1 12 0v1M16 5.5a3 3 0 0 1 0 5.8M18 14a5 5 0 0 1 3 4.5V20"/>',report:'<path d="M4 4h16v16H4zM8 8h8M8 12h8M8 16h5"/>',key:'<circle cx="8" cy="15" r="4"/><path d="m11 12 8-8 2 2-2 2 2 2-3 3-2-2-2 2"/>',logout:'<path d="M10 17l5-5-5-5M15 12H3M21 4v16"/>'};return '<svg viewBox="0 0 24 24" aria-hidden="true">'+(p[n]||p.report)+'</svg>'}
+function toggleSidebar(){const el=document.querySelector('.sidebar');if(matchMedia('(max-width:700px)').matches)el.classList.toggle('mobile-open');else{el.classList.toggle('collapsed');document.body.classList.toggle('sidebar-mini',el.classList.contains('collapsed'));}}
+function render(){document.body.classList.toggle('signed-in',!!S);const items=[['people','ทะเบียนบุคลากร','people','ทะเบียนบุคลากร'],['rep','รายงาน','report','ส่งออกรายงาน Excel'],['pw','รหัสผ่าน','key','เปลี่ยนรหัสผ่าน']];
+ nav.innerHTML=S?items.map(([k,t,i])=>`<button class="${tab==k?'on':''}" title="${t}" onclick="tab='${k}';render()"><span class="nav-icon">${uiIcon(i)}</span><span class="nav-text">${t}</span></button>`).join('')+`<button class="logout" title="ออกจากระบบ" onclick="sb.auth.signOut();sessionStorage.clear();S=null;render()"><span class="nav-icon">${uiIcon('logout')}</span><span class="nav-text">ออกจากระบบ</span></button>`:'';
  const active=items.find(x=>x[0]===tab);const title=document.getElementById('page-title');if(title)title.textContent=active?active[3]:'เข้าสู่ระบบ';
  if(!S)return login();({people,rep,pw})[tab]()}
 function login(){$(`<div class="card login-card"><div class="eyebrow">WELCOME BACK</div><h3>เข้าสู่ระบบ</h3><p style="color:var(--muted);font-size:13px">ระบบบริหารจัดการบุคลากรทางการพยาบาล</p><p><input id="u" placeholder="ชื่อผู้ใช้"></p><p><input id="p" type="password" placeholder="รหัสผ่าน"></p><button class="p" onclick="doLogin()">เข้าสู่ระบบ</button><p class="err" id="e"></p></div>`)}
@@ -187,7 +295,7 @@ const DBd={
   b:[['ตำแหน่ง',dist(A,p=>p.position)],['ประเภทการจ้าง',dist(A,p=>p.type)],['Gen',dist(A,p=>gen(p.birth_date))],['Competency',dist(A,p=>p.competency)]]}},
  bday:D=>{const A=act(D).filter(p=>p.birth_date),now=new Date(),y=now.getFullYear(),md=d=>String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'),dm=d=>d.getDate()+' '+MON[d.getMonth()],tm=new Date(y,now.getMonth(),now.getDate()+1),by=d=>sortP(A.filter(p=>String(p.birth_date).slice(5,10)===md(d))),m=now.getMonth(),c=Array(12).fill(0);A.forEach(p=>c[+String(p.birth_date).slice(5,7)-1]++);
   const lst=(t,d,e)=>{const L=by(d);return`<div class="card"><h3>${t} ${dm(d)} (${L.length} คน)</h3>${L.length?`<div class="tw"><table><tr><th>หน่วยงาน</th><th>ชื่อ-สกุล</th><th>ตำแหน่ง</th><th>อายุครบ (ปี)</th></tr>${L.map(p=>`<tr><td>${p.unit}</td><td>${p.prefix||''}${p.name}</td><td>${p.position}</td><td>${y-+String(p.birth_date).slice(0,4)}</td></tr>`).join('')}</table></div>`:`<p class="muted">${e}</p>`}</div>`};
-  return{k:[[by(now).length,'เกิดวันนี้'],[by(tm).length,'เกิดพรุ่งนี้'],[c[m],'เกิดเดือนนี้ ('+MON[m]+')'],[A.length,'มีข้อมูลวันเกิด']],x:lst('🎂 เกิดวันนี้',now,'ไม่มีผู้เกิดวันนี้')+lst('🎁 เกิดพรุ่งนี้',tm,'ไม่มีผู้เกิดพรุ่งนี้'),b:[['จำนวนผู้เกิดรายเดือน',c.map((v,i)=>[MON[i],v])]]}},
+  return{k:[[by(now).length,'เกิดวันนี้'],[by(tm).length,'เกิดพรุ่งนี้'],[c[m],'เกิดเดือนนี้ ('+MON[m]+')'],[A.length,'มีข้อมูลวันเกิด']],x:lst('เกิดวันนี้',now,'ไม่มีผู้เกิดวันนี้')+lst('เกิดพรุ่งนี้',tm,'ไม่มีผู้เกิดพรุ่งนี้'),b:[['จำนวนผู้เกิดรายเดือน',c.map((v,i)=>[MON[i],v])]]}},
  gap:D=>{const R=B.gap.f(D).slice(1,-1),sh=i=>R.reduce((s,r)=>s+Math.max(-r[i],0),0),shortTop=i=>R.filter(r=>r[i]<0).sort((a,b)=>a[i]-b[i]).slice(0,8).map(r=>[r[0],-r[i]]);return{k:[[sh(3),'RN ขาด'],[sh(6),'พนักงานช่วยเหลือคนไข้ขาด'],[sh(9),'พนักงานประจำตึกขาด'],[sh(3)+sh(6)+sh(9),'ขาดรวม']],b:[['หน่วยที่ RN ขาดมากสุด (คน)',shortTop(3)],['หน่วยที่พนักงานช่วยเหลือคนไข้ขาดมากสุด (คน)',shortTop(6)],['หน่วยที่พนักงานประจำตึกขาดมากสุด (คน)',shortTop(9)]]}},
  lvl:D=>{const a=B.lvl.f(D),H=a[0],T=a[a.length-1],R=a.slice(1,-1),A=act(D).filter(p=>NURSE.includes(p.position)),noLevel=cnt(A,p=>!String(p.level||'').trim());return{k:[[T[7],'พยาบาลทั้งหมด'],[T[1],'ชำนาญการพิเศษ'],[T[2],'ชำนาญการ'],[T[3],'ปฏิบัติการ'],[noLevel,'ไม่มีระดับ']],b:[['ระดับ/ประเภท',H.slice(1,7).map((h,i)=>[h,T[i+1]])],['หน่วยที่มีพยาบาลมากสุด',topN(R,7)]]}},
  sup:D=>{const A=act(D).filter(p=>!NURSE.includes(p.position));return{k:[[A.length,'สายสนับสนุนทั้งหมด'],[cnt(A,p=>p.type==='พนักงานกระทรวงสาธารณสุข'),'พกส.'],[cnt(A,p=>p.type==='ลูกจ้างชั่วคราวรายเดือน'),'ลูกจ้างรายเดือน'],[cnt(A,p=>p.type==='ลูกจ้างชั่วคราวรายวัน'),'ลูกจ้างรายวัน']],b:[['ตำแหน่ง',dist(A,p=>p.position)],['ประเภทการจ้าง',dist(A,p=>p.type)]]}},
@@ -195,13 +303,13 @@ const DBd={
 const bars=(t,it)=>{const mx=Math.max(1,...it.map(x=>x[1]));return`<div class="card"><h3>${t}</h3>${it.length?it.map(([l,v])=>`<div class="brow"><span>${l}</span><div class="bar"><i style="width:${v/mx*100}%"></i></div><b>${v}</b></div>`).join(''):'<p class="muted">ไม่มีข้อมูล</p>'}</div>`};
 const RL=[['reg','ทะเบียนบุคลากร'],['bday','วันเกิด'],['gap','วิเคราะห์อัตรากำลัง'],['lvl','พยาบาลแยกระดับ'],['sup','สายสนับสนุน'],['mov','เข้า-ออก-ย้าย']];
 function repShow(k){repTab=k;const D=fd();if(k==='gap'){D.P=RD.P.filter(p=>!RF.unit||p.unit===RF.unit);D.F=RD.F.filter(f=>!RF.unit||f.unit===RF.unit)}const a=B[k].f(D),d=DBd[k](D),n=a.length-1,lim=['reg','bday','mov'].includes(k)?25:999,tot=['gap','lvl','sup'].includes(k);
- document.getElementById('rp').innerHTML=`<div class="kpi">${d.k.map(([v,l])=>`<div class="card"><b>${v}</b>${l}</div>`).join('')}</div>${d.x||''}<div class="grid2">${d.b.map(x=>bars(...x)).join('')}</div><div class="card tw"><p><button class="p" onclick="xl(['${k}'],'${k}')">⇩ ดาวน์โหลดรายงานนี้ (Excel ตามตัวกรอง)</button></p>${k==='gap'?`<table><thead><tr><th rowspan="2">หน่วยงาน</th><th class="gap-group-head" colspan="3">RN · พยาบาลวิชาชีพ</th><th class="gap-group-head" colspan="3">NA · พนักงานช่วยเหลือคนไข้</th><th class="gap-group-head" colspan="3">พนักงานประจำตึก</th></tr><tr>${['กรอบ','จริง','ส่วนต่าง (+/−)','กรอบ','จริง','ส่วนต่าง (+/−)','กรอบ','จริง','ส่วนต่าง (+/−)'].map(h=>`<th class="gap-sub-head">${h}</th>`).join('')}</tr></thead><tbody>${a.slice(1,lim+1).map((r,i)=>`<tr${i<n-1?` class="person-row" tabindex="0" role="button" aria-label="ดูและแก้ไขกรอบ ${esc(r[0])}" onclick="frameworkDetail('${String(r[0]).replace(/'/g,"\\'")}')"`:''}${tot&&i==n-1?' style="font-weight:700"':''}><td>${esc(r[0])}</td>${r.slice(1).map((c,j)=>`<td class="gap-num ${j%3===2?(Number(c)>0?'gap-positive':Number(c)<0?'gap-negative':''):''}">${j%3===2?(Number(c)>0?'+'+Number(c).toLocaleString('th-TH'):Number(c).toLocaleString('th-TH')):Number(c).toLocaleString('th-TH')}</td>`).join('')}</tr>`).join('')}</tbody></table>`:`<table><tr>${a[0].map(h=>`<th>${h}</th>`).join('')}</tr>${a.slice(1,lim+1).map((r,i)=>`<tr${tot&&i==n-1?' style="font-weight:700"':''}>${r.map((c,j)=>`<td class="${String(a[0][j]||'').includes('หมายเหตุ')?'note-cell':''}">${c}</td>`).join('')}</tr>`).join('')}</table>`}${n>lim?`<p class="muted">แสดง ${lim} จาก ${n} แถว ดาวน์โหลดเพื่อดูทั้งหมด</p>`:''}${n<1?'<p class="muted">ยังไม่มีรายการ</p>':''}</div>`;
+ document.getElementById('rp').innerHTML=`<div class="kpi">${d.k.map(([v,l])=>`<div class="card"><b>${v}</b>${l}</div>`).join('')}</div>${d.x||''}<div class="grid2">${d.b.map(x=>bars(...x)).join('')}</div><div class="card tw"><p><button class="p" onclick="xl(['${k}'],'${k}')">ดาวน์โหลดรายงานนี้ (Excel ตามตัวกรอง)</button></p>${k==='gap'?`<table><thead><tr><th rowspan="2">หน่วยงาน</th><th class="gap-group-head" colspan="3">RN · พยาบาลวิชาชีพ</th><th class="gap-group-head" colspan="3">NA · พนักงานช่วยเหลือคนไข้</th><th class="gap-group-head" colspan="3">พนักงานประจำตึก</th></tr><tr>${['กรอบ','จริง','ส่วนต่าง (+/−)','กรอบ','จริง','ส่วนต่าง (+/−)','กรอบ','จริง','ส่วนต่าง (+/−)'].map(h=>`<th class="gap-sub-head">${h}</th>`).join('')}</tr></thead><tbody>${a.slice(1,lim+1).map((r,i)=>`<tr${i<n-1?` class="person-row" tabindex="0" role="button" aria-label="ดูและแก้ไขกรอบ ${esc(r[0])}" onclick="frameworkDetail('${String(r[0]).replace(/'/g,"\\'")}')"`:''}${tot&&i==n-1?' style="font-weight:700"':''}><td>${esc(r[0])}</td>${r.slice(1).map((c,j)=>`<td class="gap-num ${j%3===2?(Number(c)>0?'gap-positive':Number(c)<0?'gap-negative':''):''}">${j%3===2?(Number(c)>0?'+'+Number(c).toLocaleString('th-TH'):Number(c).toLocaleString('th-TH')):Number(c).toLocaleString('th-TH')}</td>`).join('')}</tr>`).join('')}</tbody></table>`:`<table><tr>${a[0].map(h=>`<th>${h}</th>`).join('')}</tr>${a.slice(1,lim+1).map((r,i)=>`<tr${tot&&i==n-1?' style="font-weight:700"':''}>${r.map((c,j)=>`<td class="${String(a[0][j]||'').includes('หมายเหตุ')?'note-cell':''}">${c}</td>`).join('')}</tr>`).join('')}</table>`}${n>lim?`<p class="muted">แสดง ${lim} จาก ${n} แถว ดาวน์โหลดเพื่อดูทั้งหมด</p>`:''}${n<1?'<p class="muted">ยังไม่มีรายการ</p>':''}</div>`;
  document.getElementById('rfs').textContent='ตัวกรอง: '+(RF.unit||'ทุกหน่วยงาน')+' · '+(RF.pos||'ทุกตำแหน่ง')+' → บุคลากร Active '+cnt(D.P,p=>p.status==='active')+' คน (ผลกับทุกแท็บและไฟล์ที่ดาวน์โหลด)';document.querySelectorAll('.tabs button').forEach(b=>b.classList.toggle('on',b.dataset.k===k))}
 function frameworkDetail(unit){const positions=[['พยาบาลวิชาชีพ','RN'],['พนักงานช่วยเหลือคนไข้','NA'],['พนักงานประจำตึก','พนักงานประจำตึก']],rows=positions.map(([position,label])=>{const f=RD.F.find(x=>x.unit===unit&&x.position===position);return{position,label,quota:f?.quota??0,id:f?.id??null}});const editable=S.role!=='viewer';modal(`<div style="display:flex;justify-content:space-between;align-items:center;gap:12px"><div><div class="eyebrow">UNIT FRAMEWORK</div><h3 style="margin:2px 0">กรอบอัตรากำลัง · ${esc(unit)}</h3></div><button onclick="closeM()">ปิด</button></div><p class="muted">แสดงกรอบ จริง และ GAP แยกตามสายอาชีพของหน่วยงานนี้</p><div class="tw framework-table"><table><tr><th>สายอาชีพ</th><th>กรอบ</th><th>จริง</th><th>GAP</th></tr>${rows.map((x,i)=>{const actual=RD.P.filter(p=>p.status==='active'&&!isManpowerExcluded(p)&&p.unit===unit&&manpowerGroup(p.position)===x.position).length,gap=actual-Number(x.quota);return `<tr><td><b>${x.label}</b><div class="muted">${x.position}</div></td><td>${editable?`<input type="number" min="0" step="1" id="fq${i}" value="${Number(x.quota)}" style="width:90px">`:`<b>${Number(x.quota)}</b>`}</td><td>${actual}</td><td class="${gap>0?'gap-positive':gap<0?'gap-negative':''}">${gap>0?'+'+gap:gap}</td></tr>`}).join('')}</table></div>${editable?`<p class="muted">แก้ไขตัวเลขกรอบของแต่ละสายอาชีพ แล้วกดบันทึก ระบบจะปรับเฉพาะหน่วยงานนี้</p><p class="err" id="frameworkErr"></p><button class="p" onclick="saveFramework('${String(unit).replace(/'/g,"\\'")}')">บันทึกกรอบอัตรากำลัง</button> <button onclick="closeM()">ยกเลิก</button>`:''}`)}
 async function saveFramework(unit){try{const positions=['พยาบาลวิชาชีพ','พนักงานช่วยเหลือคนไข้','พนักงานประจำตึก'],rows=positions.map((position,i)=>{const el=document.getElementById('fq'+i),quota=Number(el?.value);if(!el||!Number.isInteger(quota)||quota<0)throw new Error('กรุณากรอกกรอบเป็นจำนวนเต็มตั้งแต่ 0 ขึ้นไป');const f=RD.F.find(x=>x.unit===unit&&x.position===position);if(!f)throw new Error('ไม่พบระเบียนกรอบของ '+position+' ในหน่วยงานนี้ จึงยังไม่บันทึกเพื่อป้องกันการสร้างข้อมูลซ้ำ');return{id:f.id,position,quota}});await api('updateFramework',{unit,rows});await rep();frameworkDetail(unit)}catch(x){const el=document.getElementById('frameworkErr');if(el)el.textContent=x.message;else alert(x.message)}}
 async function rep(){$('กำลังโหลด…');try{const[r1,fw,ev]=await Promise.all([api('people'),api('framework'),api('events')]);window.RD={P:r1.data,F:fw.data,E:ev.data};
  const uns=[...new Set([...RD.P.map(p=>p.unit),...RD.F.map(f=>f.unit)])].sort(th),pos=[...new Set(RD.P.map(p=>p.position).filter(Boolean))].sort(th),o=(l,v)=>l.map(x=>`<option value="${x}" ${x===v?'selected':''}>${x}</option>`).join('');
- $(`<div class="card"><div class="g"><label>หน่วยงาน<select onchange="RF.unit=this.value;repShow(repTab)"><option value="">ทั้งหมดทุกหน่วยงาน</option>${o(uns,RF.unit)}</select></label><label>ตำแหน่ง<select onchange="RF.pos=this.value;repShow(repTab)"><option value="">ทั้งหมดทุกตำแหน่ง</option>${o(pos,RF.pos)}</select></label><label>&nbsp;<button onclick="RF.unit=RF.pos='';rep()">ล้างตัวกรอง</button></label></div><p class="muted" id="rfs"></p><p><button class="p" onclick="xl(['reg','bday','gap','lvl','sup','mov'],'HR-Nurse-SWDCPH-all')">⇩ ดาวน์โหลดทุกรายงาน (Excel 6 ชีต ตามตัวกรอง)</button> <span class="muted">ข้อมูล ณ วันที่ปัจจุบัน</span></p></div><div class="tabs">${RL.map(([k,t])=>`<button data-k="${k}" onclick="repShow('${k}')">${t}</button>`).join('')}</div><div id="rp"></div>`);repShow(repTab)}catch(x){$(`<p class="err">${x.message}</p>`)}}
+ $(`<div class="card"><div class="g"><label>หน่วยงาน<select onchange="RF.unit=this.value;repShow(repTab)"><option value="">ทั้งหมดทุกหน่วยงาน</option>${o(uns,RF.unit)}</select></label><label>ตำแหน่ง<select onchange="RF.pos=this.value;repShow(repTab)"><option value="">ทั้งหมดทุกตำแหน่ง</option>${o(pos,RF.pos)}</select></label><label>&nbsp;<button onclick="RF.unit=RF.pos='';rep()">ล้างตัวกรอง</button></label></div><p class="muted" id="rfs"></p><p><button class="p" onclick="xl(['reg','bday','gap','lvl','sup','mov'],'HR-Nurse-SWDCPH-all')">ดาวน์โหลดทุกรายงาน (Excel 6 ชีต ตามตัวกรอง)</button> <span class="muted">ข้อมูล ณ วันที่ปัจจุบัน</span></p></div><div class="tabs">${RL.map(([k,t])=>`<button data-k="${k}" onclick="repShow('${k}')">${t}</button>`).join('')}</div><div id="rp"></div>`);repShow(repTab)}catch(x){$(`<p class="err">${x.message}</p>`)}}
 function pw(){$(`<div class="card" style="max-width:380px"><h3>เปลี่ยนรหัสผ่าน</h3><p><input id="c0" type="password" placeholder="รหัสผ่านปัจจุบัน"></p><p><input id="n1" type="password" placeholder="รหัสผ่านใหม่ (อย่างน้อย 8 ตัวอักษร)"></p><p><input id="n2" type="password" placeholder="ยืนยันรหัสผ่านใหม่"></p><button class="p" onclick="setPw()">บันทึก</button><p id="pm"></p></div>`)}
 async function setPw(){try{if(n1.value.length<8)throw new Error('รหัสผ่านใหม่ต้องยาวอย่างน้อย 8 ตัวอักษร');if(n1.value!==n2.value)throw new Error('รหัสผ่านใหม่ไม่ตรงกัน');
  const em=(await sb.auth.getUser()).data.user.email,r=await sb.auth.signInWithPassword({email:em,password:c0.value});if(r.error)throw new Error('รหัสผ่านปัจจุบันไม่ถูกต้อง');
