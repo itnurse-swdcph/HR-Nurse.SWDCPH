@@ -2,13 +2,14 @@
 create table if not exists profiles(user_id uuid primary key references auth.users on delete cascade, role text not null default 'viewer', unit text not null default '-'); -- role: admin|unit_head|viewer, unit: ชื่อหน่วย หรือ *
 create table if not exists personnel(id uuid primary key default gen_random_uuid(), prefix text, name text not null, position text, level text, type text, unit text not null,
  sub_unit text, start_date date, position_start_date date, birth_date date, competency text, status text not null default 'active',
- exit_date date, exit_reason text, planned_exit_date date, note text, created_at timestamptz default now());
+ exit_date date, exit_reason text, planned_exit_date date, planned_exit_reason text, note text, created_at timestamptz default now());
 
 -- รองรับฐานข้อมูลเดิมที่สร้าง personnel ก่อนฟิลด์ในหน้าจอแก้ไขจะครบ
 alter table personnel add column if not exists sub_unit text;
 alter table personnel add column if not exists position_start_date date;
 alter table personnel add column if not exists competency text;
 alter table personnel add column if not exists planned_exit_date date;
+alter table personnel add column if not exists planned_exit_reason text;
 alter table personnel add column if not exists note text;
 create table if not exists events(id bigint generated always as identity primary key, type text not null, person_id uuid references personnel(id), from_unit text, to_unit text,
  effective_date date, reason text, created_by uuid default auth.uid(), created_at timestamptz default now());
