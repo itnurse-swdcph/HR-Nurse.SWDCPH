@@ -1,7 +1,7 @@
 -- HR Nurse SWDCPH — Supabase schema. วางใน Dashboard → SQL Editor แล้วกด Run
 create table if not exists profiles(user_id uuid primary key references auth.users on delete cascade, role text not null default 'viewer', unit text not null default '-'); -- role: admin|unit_head|viewer, unit: ชื่อหน่วย หรือ *
 create table if not exists personnel(id uuid primary key default gen_random_uuid(), prefix text, name text not null, position text, level text, type text, unit text not null,
- sub_unit text, start_date date, position_start_date date, birth_date date, competency text, staff_role text, status text not null default 'active',
+ sub_unit text, start_date date, position_start_date date, birth_date date, competency text, staff_role text not null default 'ผู้ปฏิบัติ', status text not null default 'active',
  exit_date date, exit_reason text, planned_exit_date date, planned_exit_reason text, note text, created_at timestamptz default now());
 
 -- รองรับฐานข้อมูลเดิมที่สร้าง personnel ก่อนฟิลด์ในหน้าจอแก้ไขจะครบ
@@ -9,6 +9,9 @@ alter table personnel add column if not exists sub_unit text;
 alter table personnel add column if not exists position_start_date date;
 alter table personnel add column if not exists competency text;
 alter table personnel add column if not exists staff_role text;
+update personnel set staff_role='ผู้ปฏิบัติ';
+alter table personnel alter column staff_role set default 'ผู้ปฏิบัติ';
+alter table personnel alter column staff_role set not null;
 alter table personnel add column if not exists planned_exit_date date;
 alter table personnel add column if not exists planned_exit_reason text;
 alter table personnel add column if not exists note text;
