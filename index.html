@@ -219,7 +219,7 @@ const B={
   const R=U.map(u=>[u,...PS.flatMap(([ps])=>{const q=(D.F.find(f=>f.unit===u&&f.position===ps)||{}).quota||0,a=cnt(A,p=>p.unit===u&&manpowerGroup(p.position)===ps);return[q,a,a-q]})]);
   return[['หน่วยงาน','RN กรอบ','RN จริง','RN GAP','NA กรอบ','NA จริง','NA GAP','พนักงานประจำตึก กรอบ','พนักงานประจำตึก จริง','พนักงานประจำตึก GAP'],...R,['รวม',...sum(R,1,9)]]}},
  lvl:{n:'พยาบาลแยกระดับ',f:D=>{const A=D.P.filter(p=>isCurrentNursingStaff(p)&&isNursePosition(p.position)),U=[...new Set(A.map(p=>p.unit))].sort(th),
-  col=p.position!==NURSE[0]?5:p.type==='ข้าราชการ'?(p.level==='ชำนาญการพิเศษ'?0:p.level==='ชำนาญการ'?1:2):p.type==='พนักงานกระทรวงสาธารณสุข'?3:4;
+   col=p=>p.position!==NURSE[0]?5:p.type==='ข้าราชการ'?(p.level==='ชำนาญการพิเศษ'?0:p.level==='ชำนาญการ'?1:2):p.type==='พนักงานกระทรวงสาธารณสุข'?3:4;
   const R=U.map(u=>{const c=[0,0,0,0,0,0];A.filter(p=>p.unit===u).forEach(p=>c[col(p)]++);return[u,...c,c.reduce((a,b)=>a+b,0)]});
   return[['หน่วยงาน','ชำนาญการพิเศษ','ชำนาญการ','ปฏิบัติการ','พนักงานกระทรวงสาธารณสุข','ลูกจ้างชั่วคราว','นวก.สาธารณสุข(พยาบาล)','รวม'],...R,['รวม',...sum(R,1,7)]]}},
  sup:{n:'สายสนับสนุน',f:D=>{const A=D.P.filter(p=>isCurrentNursingStaff(p)&&!isNursePosition(p.position)),K=[...new Set(A.map(p=>p.unit+'¦'+positionFor(p)))].sort(th),TY=['ข้าราชการ','ลูกจ้างประจำ','พนักงานกระทรวงสาธารณสุข','ลูกจ้างชั่วคราวรายเดือน','ลูกจ้างชั่วคราวรายวัน'];
