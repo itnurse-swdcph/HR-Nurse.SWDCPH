@@ -64,4 +64,9 @@ where unit in (
   'งานEMS', 'งาน EMS', 'ศูนย์รับส่งต่อ', 'ศูนย์เปล'
 );
 
+-- Keep unit-scoped profiles aligned with the corrected emergency-unit name.
+update public.profiles
+set unit = 'งานการพยาบาลผู้ป่วยอุบัติเหตุและฉุกเฉิน'
+where unit = 'งานการพยาบาลผู้ป่วยอุบัติเหตุฉุกเฉิน';
+
 commit;
