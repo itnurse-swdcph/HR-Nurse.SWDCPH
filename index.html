@@ -182,6 +182,7 @@ ${editSelect('ep_prefix','คำนำหน้า','prefix',r.prefix)}
 ${editSelect('ep_position','ตำแหน่ง','position',r.position)}
 ${editSelect('ep_level','ระดับ','level',r.level)}
 ${editSelect('ep_type','ประเภทบุคลากร','type',r.type)}
+${staffRoleSelect('ep_staff_role',r.staff_role||'')}
 <div id="ep_nursing_location">${nursingLocationFields('ep',r.unit)}</div>
 <label id="ep_transfer_location" style="display:none">หน่วยงานปลายทางนอกกลุ่มการพยาบาล *<input id="ep_external_unit" value="${esc(!groupForUnit(r.unit)?r.unit:'')}" placeholder="ระบุชื่อหน่วยงานปลายทาง"></label>
 ${editSelect('ep_sub_unit','หน่วยย่อย','sub_unit',r.sub_unit)}
@@ -189,7 +190,6 @@ ${editSelect('ep_sub_unit','หน่วยย่อย','sub_unit',r.sub_unit)}
 <label>วันที่เข้าสู่ตำแหน่ง<input id="ep_position_start" type="date" value="${esc(r.position_start_date)}"></label>
 <label>วันเกิด<input id="ep_birth" type="date" value="${esc(r.birth_date)}"></label>
 ${editSelect('ep_competency','Competency','competency',r.competency)}
-${staffRoleSelect('ep_staff_role',r.staff_role||'')}
 <label>สถานะบุคลากร<select id="ep_status" onchange="syncEditStatusFields()"><option value="active" ${r.status==='active'&&groupForUnit(r.unit)?'selected':''}>ปฏิบัติงาน</option><option value="resign" ${r.status==='exited'&&/ลาออก/.test(r.exit_reason||'')?'selected':''}>ลาออก</option><option value="retire" ${r.status==='exited'&&/เกษียณ/.test(r.exit_reason||'')?'selected':''}>เกษียณ</option><option value="transfer_out" ${!groupForUnit(r.unit)?'selected':''}>ย้าย/โอนออกนอกกลุ่มการพยาบาล</option>${r.status==='exited'&&!/ลาออก|เกษียณ|ย้าย|โอน/.test(r.exit_reason||'')?'<option value="unknown" selected>ออกจากกลุ่ม (ไม่ระบุประเภท)</option>':''}</select></label>
 <label>วันที่ออก<input id="ep_exit_date" type="date" value="${esc(r.exit_date)}"></label>
 <label>รายละเอียดเพิ่มเติม<input id="ep_exit_reason" value="${esc(exitDetail)}" placeholder="รายละเอียด (ถ้ามี)"></label>
