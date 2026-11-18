@@ -32,6 +32,24 @@ create table if not exists manpower_targets(
  source_note text not null default '',
  unique(report_type,source_period,group_name,unit_name,position)
 );
+-- Editable framework rows that preserve the source workbook's Sheet 2 layout.
+create table if not exists manpower_analysis_rows(
+ id uuid primary key default gen_random_uuid(),
+ source_period text not null default '2569-11',
+ sort_order integer not null,
+ row_no text not null default '',
+ row_type text not null check(row_type in ('group','unit','role','practitioner')),
+ group_name text not null,
+ label text not null,
+ scope_unit text,
+ scope_type text not null check(scope_type in ('group','unit','hospital')),
+ staff_role text,
+ quota_nurse integer check(quota_nurse is null or quota_nurse>=0),
+ quota_helper integer check(quota_helper is null or quota_helper>=0),
+ quota_building integer check(quota_building is null or quota_building>=0),
+ source_note text not null default '',
+ unique(source_period,sort_order)
+);
 
 create or replace function my_role() returns text language sql stable security definer set search_path=public as $$ select coalesce((select role from profiles where user_id=auth.uid()),'none') $$;
 create or replace function my_unit() returns text language sql stable security definer set search_path=public as $$ select coalesce((select unit from profiles where user_id=auth.uid()),'-') $$;
@@ -40,8 +58,9 @@ create or replace function can_write(u text) returns boolean language sql stable
 revoke execute on function my_role(), my_unit(), can_write(text) from anon, public;
 grant execute on function my_role(), my_unit(), can_write(text) to authenticated;
 
-alter table profiles enable row level security; alter table personnel enable row level security; alter table events enable row level security; alter table framework enable row level security; alter table manpower_targets enable row level security;
+alter table profiles enable row level security; alter table personnel enable row level security; alter table events enable row level security; alter table framework enable row level security; alter table manpower_targets enable row level security; alter table manpower_analysis_rows enable row level security;
 grant select, update on manpower_targets to authenticated;
+grant select, update on manpower_analysis_rows to authenticated;
 create policy p_self on profiles for select to authenticated using (user_id=auth.uid());
 create policy per_sel on personnel for select to authenticated using (my_role()<>'none' and (my_unit()='*' or unit=my_unit()));
 create policy per_ins on personnel for insert to authenticated with check (can_write(unit));
@@ -52,6 +71,8 @@ create policy fw_sel on framework for select to authenticated using (my_role()<>
 create policy fw_all on framework for all to authenticated using (my_role()='admin') with check (my_role()='admin');
 create policy manpower_targets_sel on manpower_targets for select to authenticated using (my_role()<>'none');
 create policy manpower_targets_upd on manpower_targets for update to authenticated using (my_role()='admin' or (my_role()='unit_head' and (my_unit()='*' or my_unit()=group_name or my_unit()=unit_name))) with check (my_role()='admin' or (my_role()='unit_head' and (my_unit()='*' or my_unit()=group_name or my_unit()=unit_name)));
+create policy manpower_analysis_rows_sel on manpower_analysis_rows for select to authenticated using (my_role()<>'none');
+create policy manpower_analysis_rows_upd on manpower_analysis_rows for update to authenticated using (my_role()='admin' or (my_role()='unit_head' and (my_unit()='*' or my_unit()=group_name or my_unit()=scope_unit or exists(select 1 from manpower_targets t where t.group_name=manpower_analysis_rows.group_name and t.unit_name=my_unit())))) with check (my_role()='admin' or (my_role()='unit_head' and (my_unit()='*' or my_unit()=group_name or my_unit()=scope_unit or exists(select 1 from manpower_targets t where t.group_name=manpower_analysis_rows.group_name and t.unit_name=my_unit()))));
 
 -- หลังสร้างผู้ใช้ 11450@swdcph.app ใน Authentication → Users (ติ๊ก Auto Confirm) ให้รันบรรทัดนี้:
 -- insert into profiles(user_id,role,unit) select id,'admin','*' from auth.users where email='11450@swdcph.app' on conflict (user_id) do update set role='admin',unit='*';
