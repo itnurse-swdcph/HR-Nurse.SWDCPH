@@ -86,6 +86,41 @@ body:not(.signed-in){background:radial-gradient(ellipse at 70% 10%,#e5f9f8 0,tra
 body:not(.signed-in) main{padding:0;min-height:calc(100vh - 52px)}body:not(.signed-in) .app-footer{background:transparent;border-top:0}
 @media(max-width:900px){.login-shell{grid-template-columns:1fr;gap:22px;padding:24px 18px}.login-visual img{max-height:340px}.login-panel{max-width:520px}.login-copy{text-align:center}}
 @media(max-width:560px){.login-shell{padding:16px 12px 24px;gap:14px}.login-visual img{max-height:230px;border-radius:18px}.login-panel{padding:24px 20px;border-radius:20px}.login-panel h2{font-size:24px}.login-copy h1{font-size:23px}}
+
+/* Login refresh: one balanced, unified composition */
+body:not(.signed-in){background:radial-gradient(ellipse at 12% 10%,rgba(34,196,190,.14),transparent 38%),radial-gradient(ellipse at 90% 90%,rgba(26,157,170,.10),transparent 38%),#f1f7f7}
+body:not(.signed-in) main{padding:0!important;min-height:calc(100vh - 52px);display:flex;align-items:center}
+.login-stage{width:100%;max-width:1320px;margin:0 auto;padding:clamp(22px,4vw,54px);display:flex;align-items:center;justify-content:center}
+.login-card-new{width:100%;min-height:590px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);overflow:hidden;border:1px solid #dcebea;border-radius:30px;background:#fff;box-shadow:0 24px 70px rgba(17,83,86,.12)}
+.login-art{position:relative;min-width:0;min-height:590px;padding:28px;display:flex;flex-direction:column;justify-content:space-between;align-items:center;overflow:hidden;background:linear-gradient(145deg,#e7f9f7 0%,#f4fbfb 48%,#d8f2ef 100%)}
+.login-art:before,.login-art:after{content:"";position:absolute;border:1px solid rgba(0,154,151,.12);border-radius:50%;pointer-events:none}
+.login-art:before{width:460px;height:460px;left:-210px;top:18%}.login-art:after{width:350px;height:350px;right:-190px;bottom:-110px}
+.art-label{position:relative;z-index:1;align-self:flex-start;display:flex;align-items:center;gap:10px;color:#087f7c;font-size:12px;font-weight:800;letter-spacing:1.4px}
+.brand-mark{width:34px;height:34px;display:grid;place-items:center;border-radius:11px;background:#08a7a1;color:white;font-size:19px;box-shadow:0 5px 12px rgba(8,167,161,.2)}
+.login-art img{position:relative;z-index:1;display:block;width:100%;height:430px;object-fit:contain;object-position:center}
+.art-caption{position:relative;z-index:1;align-self:flex-start;display:flex;align-items:center;gap:10px;color:#4b7777;font-size:12px;font-weight:500}
+.caption-line{width:28px;height:2px;border-radius:3px;background:#0aa6a0}
+.login-form-side{min-width:0;padding:clamp(32px,5vw,68px);display:flex;flex-direction:column;justify-content:center;background:#fff}
+.system-heading{padding-bottom:26px;border-bottom:1px solid #e8eeee}
+.system-kicker{margin-bottom:12px;color:#078d89;font-size:10px;font-weight:800;letter-spacing:1.7px}
+.system-heading h1{margin:0 0 12px;color:#173e42;font-size:clamp(25px,2.6vw,35px);line-height:1.48;font-weight:750}
+.system-heading p{margin:0;color:#667f80;font-size:14px;line-height:1.8}
+.form-heading{margin:28px 0 20px}
+.form-heading h2{margin:0 0 6px;color:#193d40;font-size:24px;font-weight:700}
+.form-heading p{margin:0;color:#829394;font-size:13px}
+.login-fields{display:flex;flex-direction:column;gap:9px}
+.login-fields label{margin-top:5px;color:#405d5e;font-size:13px;font-weight:600}
+.login-fields input{width:100%;height:51px;padding:0 16px;border:1px solid #dce8e7;border-radius:12px;background:#f7fafa;color:#1e3536;font-size:14px;outline:none;transition:border-color .2s,box-shadow .2s}
+.login-fields input:focus{border-color:#0aa39e;background:#fff;box-shadow:0 0 0 3px rgba(10,163,158,.12)}
+.login-fields .p{width:100%;height:52px;margin-top:13px;display:flex;align-items:center;justify-content:center;gap:12px;border:0;border-radius:12px;background:linear-gradient(100deg,#078c89,#0bb5aa);color:#fff;font-size:15px;font-weight:700;box-shadow:0 9px 20px rgba(8,153,148,.2);transition:transform .2s,box-shadow .2s}
+.login-fields .p:hover{transform:translateY(-1px);box-shadow:0 12px 24px rgba(8,153,148,.26)}
+.login-fields .p span{font-size:20px;line-height:1}
+.login-fields .err{min-height:18px;margin:2px 0 0;color:#b42318;font-size:12px}
+.login-secure{margin-top:23px;padding-top:16px;border-top:1px solid #edf1f1;color:#91a0a0;font-size:11px}
+.login-secure span{margin-right:7px;color:#10a69d;font-size:10px}
+body:not(.signed-in) .app-footer{background:transparent;border-top:0;color:#849797}
+@media(max-width:900px){body:not(.signed-in) main{display:block}.login-stage{padding:24px 18px}.login-card-new{min-height:0;grid-template-columns:1fr 1fr}.login-art{min-height:540px;padding:22px}.login-art img{height:360px}.login-form-side{padding:30px}}
+@media(max-width:640px){.login-stage{padding:14px 12px 24px}.login-card-new{grid-template-columns:1fr;border-radius:22px}.login-art{min-height:0;height:245px;padding:18px 20px 14px}.login-art img{height:155px;max-width:100%}.art-label{font-size:10px}.art-caption{font-size:10px}.login-form-side{padding:27px 23px 25px}.system-heading{padding-bottom:19px}.system-heading h1{font-size:25px}.form-heading{margin:22px 0 16px}}
 </style></head><body>
 <div class="app-shell"><aside class="sidebar"><div class="brand"><div class="brand-mark">HR</div><div class="brand-copy"><div class="brand-title">HR Nurse</div><div class="brand-sub">SWDCPH · Nursing</div></div><button class="sidebar-toggle" id="sidebarToggle" aria-label="ย่อหรือขยายเมนู" title="ย่อ/ขยายเมนู" onclick="toggleSidebar()"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button></div><div class="nav-label">เมนู</div><nav id="nav"></nav><div class="sidebar-foot">กลุ่มการพยาบาล<br>โรงพยาบาลสมเด็จพระยุพราชสว่างแดนดิน</div></aside><div class="scrim" onclick="toggleSidebar()"></div><section class="workspace"><header class="topbar"><button class="menu-btn" aria-label="เมนู" onclick="toggleSidebar()"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button><div><div class="eyebrow">Nursing HR</div><div class="page-heading" id="page-title">ทะเบียนบุคลากร</div></div><div class="user-chip"><div class="user-avatar">N</div><span>HR Nurse SWDCPH</span></div></header><main id="m"></main><footer class="app-footer">© 2026 Developed By Natnarinthorn | Nursing Informatics System</footer></section></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.4/dist/umd/supabase.min.js"></script>
@@ -129,7 +164,7 @@ function render(){document.body.classList.remove('nav-open');document.body.class
  nav.innerHTML=S?items.map(([k,t,i])=>`<button class="${tab==k?'on':''}" title="${t}" onclick="tab='${k}';render()"><span class="nav-icon">${uiIcon(i)}</span><span class="nav-text">${t}</span></button>`).join('')+`<button class="logout" title="ออกจากระบบ" onclick="sb.auth.signOut();sessionStorage.clear();S=null;render()"><span class="nav-icon">${uiIcon('logout')}</span><span class="nav-text">ออกจากระบบ</span></button>`:'';
  const active=items.find(x=>x[0]===tab),title=document.getElementById('page-title');if(title)title.textContent=active?active[3]:'เข้าสู่ระบบ';
  if(!S)return login();({people,rep,pw})[tab]()}
-function login(){$(`<div class="login-shell"><section class="login-visual"><img src="./assets/hr-nurse-login-hero.jpg" alt="ทีมบุคลากรทางการพยาบาล"></section><section class="login-panel"><div class="login-copy"><div class="eyebrow">NURSING HUMAN RESOURCE</div><h1>ระบบทรัพยากรบุคลากรทางการพยาบาล</h1><p>กลุ่มการพยาบาล โรงพยาบาลสมเด็จพระยุพราชสว่างแดนดิน</p></div><h2>เข้าสู่ระบบ</h2><p class="login-sub">ลงชื่อเข้าใช้งานระบบบริหารจัดการบุคลากร</p><p><input id="u" placeholder="ชื่อผู้ใช้" autocomplete="username"></p><p><input id="p" type="password" placeholder="รหัสผ่าน" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()"></p><button class="p" onclick="doLogin()">เข้าสู่ระบบ</button><p class="err" id="e" role="alert"></p></section></div>`)}
+function login(){$(\`<div class="login-stage"><div class="login-card-new"><section class="login-art"><div class="art-label"><span class="brand-mark">✚</span><span>HR NURSE · SWDCPH</span></div><img src="./hrnurse.png" alt="ภาพประกอบระบบทรัพยากรบุคลากรทางการพยาบาล"><div class="art-caption"><span class="caption-line"></span><span>ดูแลบุคลากร · พัฒนาคุณภาพ · ขับเคลื่อนองค์กร</span></div></section><section class="login-form-side"><div class="system-heading"><div class="system-kicker">NURSING HUMAN RESOURCE SYSTEM</div><h1>ระบบทรัพยากรบุคลากร<br>ทางการพยาบาล</h1><p>กลุ่มการพยาบาล<br>โรงพยาบาลสมเด็จพระยุพราชสว่างแดนดิน</p></div><div class="form-heading"><h2>เข้าสู่ระบบ</h2><p>กรุณากรอกชื่อผู้ใช้และรหัสผ่านเพื่อเข้าใช้งาน</p></div><div class="login-fields"><label for="u">ชื่อผู้ใช้</label><input id="u" placeholder="กรอกชื่อผู้ใช้" autocomplete="username"><label for="p">รหัสผ่าน</label><input id="p" type="password" placeholder="กรอกรหัสผ่าน" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()"><button class="p" onclick="doLogin()">เข้าสู่ระบบ <span aria-hidden="true">→</span></button><p class="err" id="e" role="alert"></p></div><div class="login-secure"><span>●</span> ระบบสารสนเทศภายในองค์กร</div></section></div></div>\`)}
 async function doLogin(){try{S=await api('login',{username:u.value.trim(),password:p.value});sessionStorage.setItem('s',JSON.stringify(S));render()}catch(x){e.textContent=x.message}}
 function csv(rows,name){const k=Object.keys(rows[0]||{});const t=[k.join(','),...rows.map(r=>k.map(c=>'"'+String(r[c]??'').replace(/"/g,'""')+'"').join(','))].join('\n');
  const x=document.createElement('a');x.href=URL.createObjectURL(new Blob(['\ufeff'+t],{type:'text/csv;charset=utf-8'}));x.download=name+'.csv';x.click()}
