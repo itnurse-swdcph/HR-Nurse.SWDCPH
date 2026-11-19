@@ -92,7 +92,7 @@ async function api0(a,d){
  if(a==='login'){const r=await sb.auth.signInWithPassword({email:d.username+'@swdcph.app',password:d.password});if(r.error)throw new Error('ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง');
   return ok(await sb.from('profiles').select('role,unit').eq('user_id',r.data.user.id).maybeSingle())||{role:'viewer',unit:'-'}}
  if(a==='people')return{data:await allRows(sb.from('personnel').select('*').order('name'))};
- if(a==='units')return{data:[...new Set(await allRows(sb.from('framework').select('unit')).map(x=>x.unit))].filter(u=>S.unit==='*'||u===S.unit)};
+ if(a==='units')return{data:[...new Set((await allRows(sb.from('framework').select('unit'))).map(x=>x.unit))].filter(u=>S.unit==='*'||u===S.unit)};
  if(a==='dashboard'){const[P,F,E]=await Promise.all([allRows(sb.from('personnel').select('unit,position,planned_exit_date,staff_role,name').eq('status','active')),allRows(sb.from('framework').select('*')),allRows(sb.from('events').select('type').gte('effective_date',mon()))]);
   return{rows:ext(F,P).map(x=>{const n=P.filter(y=>y.unit===x.unit&&manpowerGroup(y.position)===x.position&&!isManpowerExcluded(y)).length;return{unit:x.unit,position:x.position,quota:x.quota,actual:n,gap:x.quota-n}}),active:P.length,planned:P.filter(x=>x.planned_exit_date).length,hire:E.filter(x=>x.type==='hire').length,exit:E.filter(x=>x.type==='exit').length}}
  if(a==='framework')return{data:await allRows(sb.from('framework').select('*'))};
